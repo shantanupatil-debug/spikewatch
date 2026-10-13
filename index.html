@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Spikewatch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+:root{
+  --bg:#F2F6F7; --surface:#FFFFFF; --ink:#0E1B22; --muted:#4A5C66; --line:#D3DEE2;
+  --accent:#0A766F; --alert:#B25E00; --alert-bg:#FFF1DD;
+  --display:'Bricolage Grotesque','Segoe UI',Arial,sans-serif;
+  --body:'Source Sans 3','Segoe UI',Arial,sans-serif;
+  --mono:'JetBrains Mono',Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root{
+  --bg:#0B1418; --surface:#122128; --ink:#E6F0F3; --muted:#9DB2BB; --line:#25404B;
+  --accent:#3CCFC4; --alert:#F2B24D; --alert-bg:#2B2210; color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.55;padding-inline:20px;padding-block:32px 56px}
+main{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:56px}
+h1,h2{font-family:var(--display);text-wrap:balance;line-height:1.08;margin:0}
+h1{font-size:clamp(34px,6vw,60px);font-weight:800;letter-spacing:-.02em}
+h2{font-size:clamp(24px,3.4vw,32px);font-weight:600}
+p{margin:0}
+.eyebrow{font-family:var(--mono);font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.hero{display:grid;grid-template-columns:1.1fr 1fr;gap:36px;align-items:center}
+.hero>*{min-width:0}
+.lede{color:var(--muted);font-size:20px;max-width:34em}
+.stack{display:flex;flex-direction:column;gap:18px}
+.chart{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px}
+.chart svg{display:block;width:100%;height:auto}
+.alertline{margin-top:10px;display:flex;gap:10px;align-items:flex-start;background:var(--alert-bg);color:var(--ink);border-radius:8px;padding:10px 12px;font-size:16px}
+.alertline b{font-family:var(--mono);font-size:13px;color:var(--alert);white-space:nowrap}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;list-style:none;margin:0;padding:0}
+.steps li{min-width:0;border-top:2px solid var(--accent);padding-top:14px;display:flex;flex-direction:column;gap:6px}
+.steps strong{font-family:var(--display);font-size:20px}
+.steps span{color:var(--muted)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.cols>*{min-width:0}
+ul.plain{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;color:var(--muted)}
+ul.plain b{color:var(--ink)}
+.offer{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:28px;display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center}
+.offer>*{min-width:0}
+.price{font-family:var(--display);font-weight:800;font-size:clamp(48px,8vw,76px);line-height:1;letter-spacing:-.03em}
+.price small{font-family:var(--body);font-weight:400;font-size:20px;color:var(--muted);letter-spacing:0}
+.note{font-size:15px;color:var(--muted)}
+table{border-collapse:collapse;width:100%;font-size:16px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.tw{overflow-x:auto}
+@media (max-width:760px){.hero,.cols,.steps,.offer{grid-template-columns:1fr}}
+</style>
+</head><body>
+<main>
+<section class="hero">
+<div class="stack">
+<p class="eyebrow">Spikewatch · pre-launch</p>
+<h1>Know when your AI bill jumps, before the invoice does.</h1>
+<p class="lede">Get hourly alerts when your API spend runs 3x above normal. Paste a read-only key, set Slack or email, done. Spikewatch reads your AI API usage once an hour and sends one message when spend crosses three times your normal level.</p>
+</div>
+<div class="chart">
+<svg viewBox="0 0 440 250" role="img" aria-label="Hourly AI spend stays flat, then climbs past the dashed 3x line where the alert fires">
+<line x1="12" y1="92" x2="428" y2="92" stroke="var(--alert)" stroke-width="2" stroke-dasharray="7 7"/>
+<polyline points="12,196 50,192 88,198 126,193 164,195 202,190 240,186 270,160 296,118 322,70 352,44 390,36 428,32" fill="none" stroke="var(--accent)" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="307" cy="92" r="8" fill="var(--alert)" stroke="var(--surface)" stroke-width="3"/>
+<text x="14" y="82" font-family="JetBrains Mono, monospace" font-size="13" fill="var(--alert)">3x normal</text>
+<text x="14" y="226" font-family="JetBrains Mono, monospace" font-size="13" fill="var(--muted)">normal hourly spend</text>
+<text x="256" y="112" font-family="JetBrains Mono, monospace" font-size="13" fill="var(--ink)" text-anchor="end">alert sent</text>
+</svg>
+<div class="alertline"><b>SLACK</b><span>Spend is at 3.4x your usual level for this hour. Latest hour: $41. Usual: $12.</span></div>
+</div>
+</section>
+
+<section class="stack">
+<h2>The job it does</h2>
+<ol class="steps">
+<li><strong>Connect a read-only key</strong><span>It can see usage numbers. It cannot make requests or change anything.</span></li>
+<li><strong>It learns your normal</strong><span>Each hour is compared with your trailing average for that time of day.</span></li>
+<li><strong>You get one message</strong><span>Only when spend crosses the line you set. Default is 3x.</span></li>
+</ol>
+</section>
+
+<section class="cols">
+<div class="stack">
+<h2>Who it is for</h2>
+<ul class="plain">
+<li><b>Small teams running agents or batch jobs</b> that call AI APIs on their own.</li>
+<li><b>Founders who pay the bill personally</b> and look at it once a month.</li>
+<li><b>Anyone who found out a loop ran all night</b> from the invoice.</li>
+</ul>
+</div>
+<div class="stack">
+<h2>What it is not</h2>
+<ul class="plain">
+<li><b>Not a hard cap.</b> It never switches your service off.</li>
+<li><b>Not a tracing tool.</b> No prompts or responses are read or stored.</li>
+<li><b>Not a dashboard to check.</b> You hear from it only when something is wrong.</li>
+</ul>
+</div>
+</section>
+
+<section class="stack">
+<h2>No manual work after launch</h2>
+<p class="lede">Signup, billing, hourly checks and alerts are all automated. No calls, no onboarding, no support queue needed to run it.</p>
+</section>
+
+<section class="stack">
+<h2>First version scope</h2>
+<ul class="plain">
+<li><b>Hourly check.</b> A scheduled job reads each customer's usage and cost report and compares it with their trailing normal for that hour.</li>
+<li><b>One small database.</b> Stores the key (encrypted), the hourly numbers and the alert settings.</li>
+<li><b>Alert delivery.</b> Slack webhook or email. Nothing else in version one.</li>
+<li><b>Known risks.</b> Provider API rate limits are low at one call per customer per hour. Billing runs through a merchant of record because Stripe is invite-only in India; onboarding for a solo founder still has to be confirmed.</li>
+</ul>
+</section>
+
+<section class="stack">
+<h2>Where it stands today</h2>
+<div class="tw"><table>
+<tr><th>Provider</th><th>Status</th></tr>
+<tr><td>Anthropic</td><td>Usage and cost reports available through the Admin API. Anthropic API access is confirmed. First integration.</td></tr>
+<tr><td>OpenAI, Google, OpenRouter</td><td>Not checked yet. Added only after confirming they expose usage data.</td></tr>
+</table></div>
+</section>
+
+<section class="offer">
+<div class="price">$15<small> / month</small></div>
+<div class="stack">
+<p><b>Founding price for the first teams.</b> Billed monthly in USD, cancel any time. Nobody is charged before the first integration is live.</p>
+<p class="note">$15 is the test price. Other tools in this area start at about $29 a month and are built for debugging, not for spend alerts. Spikewatch is a pre-launch idea and nothing is for sale yet.</p>
+</div>
+</section>
+</main>
+</body></html>
