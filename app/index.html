@@ -1,12 +1,13 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Spikewatch checker</title>
+<script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","yyytszxnjq");</script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230A766F'/%3E%3Cpolyline points='6,22 12,21 16,20 19,14 22,9 26,7' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='22' cy='9' r='2.6' fill='%23F2B24D'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
 <style>
 :root{--bg:#F2F6F7;--s:#fff;--ink:#0E1B22;--mut:#4A5C66;--line:#D3DEE2;--acc:#0A766F;--alr:#B25E00;--alb:#FFF1DD;--red:#B3261E}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 'Source Sans 3',system-ui,Segoe UI,Arial,sans-serif;padding:24px 16px 56px}
-main{max-width:1000px;margin:0 auto;display:grid;gap:20px}h1{margin:0;font-size:30px;letter-spacing:-.02em;font-family:'Bricolage Grotesque',system-ui,sans-serif;font-weight:800}h2{margin:0 0 10px;font-size:18px;font-family:'Bricolage Grotesque',system-ui,sans-serif;font-weight:600}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 'Source Sans 3',system-ui,Segoe UI,Arial,sans-serif}
+main{max-width:1000px;margin:0 auto;display:grid;gap:20px;padding:24px 16px 56px}h1{margin:0;font-size:30px;letter-spacing:-.02em;font-family:'Bricolage Grotesque',system-ui,sans-serif;font-weight:800}h2{margin:0 0 10px;font-size:18px;font-family:'Bricolage Grotesque',system-ui,sans-serif;font-weight:600}
 p{margin:0}.mut{color:var(--mut)}.card{background:var(--s);border:1px solid var(--line);border-radius:12px;padding:18px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}@media(max-width:760px){.grid{grid-template-columns:1fr}}
 textarea,input,select{width:100%;font:inherit;padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink)}
@@ -16,8 +17,45 @@ button{font:inherit;font-weight:600;font-family:'Bricolage Grotesque',system-ui,
 .rule{background:var(--alb);border-radius:8px;padding:10px 12px}svg{width:100%;height:auto;display:block}
 table{border-collapse:collapse;width:100%;font-size:14px}th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line)}th{color:var(--mut);font-size:12px;text-transform:uppercase;letter-spacing:.05em}.tw{overflow-x:auto}
 .ok{color:var(--acc);font-weight:700}.bad{color:var(--red);font-weight:700}
-</style></head><body><main>
-<div><p class="mut" style="margin-bottom:6px"><a href="/">&larr; Back to spikewatch.live</a></p><h1>Spikewatch checker</h1><p class="mut">Paste your hourly AI spend, set your rule, see exactly which hours would have sent an alert. Runs in your browser. Nothing is uploaded.</p></div>
+
+:root{--surface:#fff;--muted:#4A5C66;--accent:#0A766F;--accent-ink:#fff;--alert:#B25E00;--alert-bg:#FFF1DD;
+--display:'Bricolage Grotesque','Segoe UI',Arial,sans-serif;--body:'Source Sans 3','Segoe UI',Arial,sans-serif;--mono:'JetBrains Mono',Consolas,monospace}
+.nav{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav-inner{max-width:1020px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:20px}
+.brand{display:flex;align-items:center;gap:9px;font-family:var(--display);font-weight:800;font-size:19px;letter-spacing:-.01em;color:var(--ink);text-decoration:none;flex:none}
+.brand svg{display:block}
+.nav-links{display:flex;gap:18px;margin-left:auto;font-size:16px;align-items:center}
+.nav-links a{color:var(--muted);text-decoration:none;white-space:nowrap}
+.nav-links a:hover{color:var(--ink)}
+.nav-cta{margin-left:6px}
+@media (max-width:860px){.nav-inner{flex-wrap:wrap;gap:10px 14px;padding-bottom:0}.nav-cta{margin-left:auto;margin-bottom:10px}.nav-links{order:3;width:100%;margin-left:0;overflow-x:auto;gap:16px;padding:2px 0 10px;scrollbar-width:none}.nav-links::-webkit-scrollbar{display:none}}
+.btn{display:inline-block;font-family:var(--display);font-weight:600;font-size:17px;line-height:1;padding:14px 22px;border-radius:10px;text-decoration:none;border:1px solid transparent;white-space:nowrap}
+.btn-primary{background:var(--accent);color:var(--accent-ink)}
+.btn-sm{padding:10px 16px;font-size:15px}
+footer{border-top:1px solid var(--line)}
+.foot-cols{max-width:1020px;margin:0 auto;padding:36px 20px 8px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) auto;gap:28px}
+.foot-col{display:flex;flex-direction:column;gap:8px;font-size:15.5px}
+.foot-col b{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:4px}
+.foot-col a{color:var(--muted);text-decoration:none}
+.foot-col a:hover{color:var(--ink)}
+.foot-inner{max-width:1020px;margin:0 auto;padding:18px 20px 28px;display:flex;gap:8px 28px;flex-wrap:wrap;align-items:center;color:var(--muted);font-size:14.5px}
+.foot-inner .right{margin-left:auto;max-width:34em}
+.mut2{color:var(--muted);font-size:15px}
+@media (max-width:860px){.foot-cols{grid-template-columns:1fr 1fr}}
+</style></head><body>
+<nav class="nav"><div class="nav-inner">
+<a class="brand" href="/"><svg width="24" height="24" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="var(--accent)"/><polyline points="6,22 12,21 16,20 19,14 22,9 26,7" fill="none" stroke="var(--accent-ink)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="22" cy="9" r="2.6" fill="var(--alert)"/></svg>Spikewatch</a>
+<div class="nav-links">
+<a href="/product.html">Product</a>
+<a href="/docs.html">Docs</a>
+<a href="/security.html">Security</a>
+<a href="/pricing.html">Pricing</a>
+<a href="/faq.html">FAQ</a>
+</div>
+<a class="btn btn-primary btn-sm nav-cta" href="/app/">Try the checker</a>
+</div></nav>
+<main>
+<div><h1>Spikewatch checker</h1><p class="mut">Paste your hourly AI spend, set your rule, see exactly which hours would have sent an alert. Runs in your browser. Nothing is uploaded.</p></div>
 <div class="grid">
 <section class="card"><h2>1. Your hourly spend</h2>
 <p class="mut" style="margin-bottom:8px">CSV lines <code>2026-10-01T09:00Z,12.40</code> (hour, dollars) or an Anthropic <code>usage_report/messages</code> JSON response (1h buckets, converted to estimated dollars).</p>
@@ -32,7 +70,7 @@ table{border-collapse:collapse;width:100%;font-size:14px}th,td{text-align:left;p
 <div class="row" style="margin-top:12px"><label>Slack webhook (optional)<input id="hook" placeholder="https://hooks.slack.com/services/..." autocomplete="off"></label><button id="test" class="g">Send test alert</button></div>
 <p class="mut" style="font-size:13px;margin-top:6px">The webhook is used only from your browser for the test message and is never stored.</p><p id="hmsg" class="mut"></p></section></div>
 <section class="card"><h2>Result</h2><p id="sum" class="mut">Load the sample or paste data to see the result.</p><div id="chart"></div><div class="tw"><table id="tbl"></table></div></section>
-<section class="card"><h2>Run it every hour, hands-free</h2><p class="mut">The same detection runs as a scheduled job in <a href="https://github.com/shantanupatil-debug/spikewatch/tree/main/engine">engine/</a>: it reads your Anthropic usage report with a read-only Admin key every hour and posts one Slack message per spike. Setup is two secrets in a GitHub repo and one workflow file. Dollar figures are estimates from token counts and list prices.</p></section>
+<section class="card"><h2>Run it every hour, hands-free</h2><p class="mut">The same detection runs as a scheduled job in <a href="https://github.com/shantanupatil-debug/spikewatch/tree/main/engine">engine/</a>: it reads your Anthropic usage report with a read-only Admin key every hour and posts one Slack message per spike. Setup is two secrets in a GitHub repo and one workflow file - the <a href="/docs.html#self-host">self-host guide</a> walks through it. Dollar figures are estimates from token counts and list prices.</p></section>
 </main>
 <script type="module">
 import {detect,plainRule,alertText,usageToPoints} from "../engine/detect.mjs";
@@ -63,4 +101,32 @@ $("test").onclick=async()=>{const u=$("hook").value.trim();if(!/^https:\/\/hooks
  const r=window.__last||{t:Date.now(),v:41,baseline:12,ratio:41/12};const text="[TEST] "+alertText(r,opts());
  try{await fetch(u,{method:"POST",mode:"no-cors",headers:{"content-type":"text/plain"},body:JSON.stringify({text})});$("hmsg").innerHTML='<span class="ok">Test sent. Check your Slack channel.</span>'}catch(e){$("hmsg").innerHTML='<span class="bad">Could not send: '+e.message+"</span>"}};
 rule();$("data").value=sample();run();
-</script></body></html>
+</script><footer>
+<div class="foot-cols">
+<div class="foot-col"><b>Product</b>
+<a href="/product.html">Product overview</a>
+<a href="/product.html#detection">How detection works</a>
+<a href="/app/">Live checker</a>
+<a href="https://github.com/shantanupatil-debug/spikewatch">Source on GitHub</a>
+</div>
+<div class="foot-col"><b>Documentation</b>
+<a href="/docs.html#get-started">Get started</a>
+<a href="/docs.html#configuration">Configuration reference</a>
+<a href="/docs.html#self-host">Self-host the engine</a>
+<a href="/docs.html#alert-reference">Alert reference</a>
+</div>
+<div class="foot-col"><b>Company</b>
+<a href="/pricing.html">Pricing</a>
+<a href="/security.html">Security</a>
+<a href="/faq.html">FAQ</a>
+<a href="https://docs.google.com/forms/d/1lK39TgekgINDJVpIVqImyzUDlWx6z58S6so2qZZEIys/viewform">Launch waitlist</a>
+</div>
+<div class="foot-col"><b>&nbsp;</b><span class="mut small" style="max-width:22em">Reads usage numbers only. Never prompts, responses, or customer data.</span></div>
+</div>
+<div class="foot-inner">
+<span>© 2026 Spikewatch</span>
+<a href="https://github.com/shantanupatil-debug/spikewatch/tree/main/engine">Detection engine source</a>
+<span class="right">The detection engine is open source and the same code runs for every customer.</span>
+</div>
+</footer>
+</body></html>
