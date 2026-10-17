@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","yyytszxnjq");</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230A766F'/%3E%3Cpolyline points='6,22 12,21 16,20 19,14 22,9 26,7' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='22' cy='9' r='2.6' fill='%23F2B24D'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<title>Documentation - setup, configuration, and self-hosting | Spikewatch</title>
+<meta name="description" content="Spikewatch documentation: get started, the read-only key, configuration reference (threshold, floor, baseline, cooldown), alert format, self-hosting the engine, and testing.">
+<meta property="og:title" content="Spikewatch documentation">
+<meta property="og:description" content="Setup, configuration, alert format, and self-hosting for the open-source AI spend spike alerter.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://spikewatch.live/docs.html">
+<meta name="twitter:card" content="summary">
+<style>:root{
+  --bg:#FFFFFF; --surface:#FFFFFF; --surface2:#FAFAF8; --ink:#131311; --muted:#6E6D66; --line:#E9E7E2; --edge:#131311;
+  --accent:#0F766E; --accent-ink:#FFFFFF; --accent-soft:#F0F7F5;
+  --alert:#B45309; --alert-bg:#FDF6EC;
+  --code-bg:#171512; --code-ink:#EDEAE3; --green:#15803D;
+  --display:'Inter','Segoe UI',Arial,sans-serif;
+  --body:'Inter','Segoe UI',Arial,sans-serif;
+  --mono:'JetBrains Mono',Consolas,monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.62;background:var(--bg);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+main{max-width:1080px;margin:0 auto;display:flex;flex-direction:column;gap:96px;padding-inline:24px;padding-block:32px 96px}
+h1,h2,h3,h4{font-family:var(--display);text-wrap:balance;line-height:1.08;margin:0;color:var(--ink)}
+h1{font-size:clamp(38px,5.6vw,62px);font-weight:600;letter-spacing:-.035em}
+h2{font-size:clamp(26px,3.2vw,32px);font-weight:600;letter-spacing:-.025em}
+h3{font-size:18px;font-weight:600;letter-spacing:-.01em}
+h4{font-size:16px;font-weight:600}
+p{margin:0}
+a{color:var(--accent);text-decoration-thickness:1px;text-underline-offset:3px}
+a:hover{color:#0B5B54}
+section{scroll-margin-top:110px}
+section[id],div[id]{scroll-margin-top:110px}
+.eyebrow{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0}
+.eyebrow::before{content:"";width:24px;height:1px;background:var(--accent);flex:none}
+.lede{color:var(--muted);font-size:19px;line-height:1.6;max-width:36em}
+.stack{display:flex;flex-direction:column;gap:18px}
+.mut{color:var(--muted)}
+.small{font-size:14px}
+::selection{background:#CDEAE4}
+/* nav */
+.nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav-inner{max-width:1080px;margin:0 auto;padding:0 24px;height:60px;display:flex;align-items:center;gap:24px}
+.brand{display:flex;align-items:center;gap:9px;font-family:var(--display);font-weight:700;font-size:16px;letter-spacing:-.02em;color:var(--ink);text-decoration:none;flex:none}
+.brand svg{display:block;border-radius:6px}
+.nav-links{display:flex;gap:4px;margin-left:auto;align-items:center}
+.nav-links a{color:var(--muted);text-decoration:none;white-space:nowrap;font-size:13.5px;font-weight:500;padding:6px 10px;border-radius:6px;transition:color .15s,background .15s}
+.nav-links a:hover{color:var(--ink);background:var(--surface2)}
+.nav-links a.on{color:var(--ink);box-shadow:inset 0 -1.5px 0 var(--accent)}
+.nav-cta{margin-left:10px}
+@media (max-width:860px){
+  .nav-inner{flex-wrap:wrap;gap:8px 14px;height:auto;padding:10px 16px 0}
+  .nav-cta{margin-left:auto;margin-bottom:10px}
+  .nav-links{order:3;width:100%;margin-left:0;overflow-x:auto;gap:2px;padding:2px 0 8px;scrollbar-width:none}
+  .nav-links::-webkit-scrollbar{display:none}
+}
+/* buttons */
+.btn{display:inline-block;font-family:var(--body);font-weight:600;font-size:14px;line-height:1;padding:13px 22px;border-radius:8px;text-decoration:none;border:1px solid transparent;white-space:nowrap;transition:background .15s,border-color .15s,color .15s}
+.btn-primary{background:var(--ink);color:#fff}
+.btn-primary:hover{background:#2B2A26;color:#fff}
+.btn-ghost{border-color:var(--line);color:var(--ink);background:#fff}
+.btn-ghost:hover{border-color:#C7C4BD;color:var(--ink)}
+.btn-sm{padding:9px 15px;font-size:13px}
+.cta-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+/* breadcrumb */
+.crumbs{font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;color:var(--muted);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.crumbs a{color:var(--muted);text-decoration:none}
+.crumbs a:hover{color:var(--accent)}
+/* page header + tabs */
+.pagehead{display:flex;flex-direction:column;gap:18px;padding-top:40px}
+.pagehead h1{font-size:clamp(34px,4.6vw,52px)}
+.tabs{position:sticky;top:60px;z-index:15;background:rgba(255,255,255,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);margin-inline:-24px;padding-inline:24px}
+.tabs-inner{display:flex;gap:26px;overflow-x:auto;max-width:1080px;margin:0 auto;scrollbar-width:none}
+.tabs-inner::-webkit-scrollbar{display:none}
+.tabs a{flex:none;padding:14px 0;font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;border-bottom:1.5px solid transparent;margin-bottom:-1px}
+.tabs a:hover{color:var(--ink)}
+.tabs a.cta{margin-left:auto;color:var(--accent)}
+@media (max-width:860px){.tabs{top:108px}}
+/* hero */
+.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:center;padding-top:44px}
+.hero>*{min-width:0}
+.trust{display:flex;gap:8px 22px;flex-wrap:wrap;list-style:none;margin:8px 0 0;padding:0;font-size:13.5px;font-weight:500;color:var(--muted)}
+.trust li{display:flex;align-items:center;gap:8px}
+.trust li::before{content:"";width:11px;height:6px;border-left:1.5px solid var(--green);border-bottom:1.5px solid var(--green);transform:rotate(-45deg) translateY(-1px);flex:none}
+.chart{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 1px 2px rgba(19,19,17,.04),0 16px 40px -16px rgba(19,19,17,.12)}
+.chart svg{display:block;width:100%;height:auto}
+.alertline{margin-top:14px;display:grid;grid-template-columns:32px 1fr;gap:12px;align-items:start;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;box-shadow:0 1px 2px rgba(19,19,17,.04)}
+.alertline b{font-size:0;width:32px;height:32px;border-radius:8px;background:var(--accent);display:flex;align-items:center;justify-content:center}
+.alertline b::after{content:"S";font-family:var(--body);font-size:14px;font-weight:700;color:#fff}
+.alertline span{font-size:13.5px;line-height:1.55;color:var(--ink)}
+.alertline span::before{content:"Spikewatch · Slack";display:block;font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+/* fact strip */
+.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;border-block:1px solid var(--line);padding-block:28px}
+.facts div{display:flex;flex-direction:column;gap:6px}
+.facts b{font-family:var(--mono);font-size:21px;font-weight:500;letter-spacing:-.02em;color:var(--ink)}
+.facts span{color:var(--muted);font-size:13.5px;line-height:1.5}
+/* cards */
+.cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.cards2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:8px;box-shadow:0 1px 2px rgba(19,19,17,.03);transition:border-color .15s,box-shadow .15s}
+.card:hover{border-color:#D6D3CB;box-shadow:0 6px 20px -6px rgba(19,19,17,.07)}
+.card p{color:var(--muted);font-size:15px;line-height:1.6}
+.card h3,.card h4{margin:0}
+.card .more{margin-top:auto;padding-top:8px;font-size:13.5px;font-weight:600}
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;list-style:none;margin:0;padding:0;counter-reset:step}
+.steps li{min-width:0;border-top:1px solid var(--line);padding-top:16px;display:flex;flex-direction:column;gap:6px}
+.steps strong{font-family:var(--display);font-size:17px;font-weight:600;letter-spacing:-.01em}
+.steps span{color:var(--muted);font-size:15px}
+/* numbered detail blocks */
+.detail{display:grid;grid-template-columns:56px 1fr;gap:18px;align-items:start}
+.detail .num{font-family:var(--mono);color:var(--accent);font-size:13px;border:1px solid var(--line);border-radius:8px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:var(--surface2)}
+.detail .body{display:flex;flex-direction:column;gap:8px}
+.detail .body p{color:var(--muted);font-size:15.5px}
+/* demo strip */
+.demo{display:grid;grid-template-columns:1fr auto;gap:32px;align-items:center;background:var(--surface2);border:1px solid var(--line);border-radius:16px;padding:32px}
+.demo p{color:var(--muted);font-size:15.5px}
+.demo .btn{align-self:center}
+/* tables */
+table{border-collapse:collapse;width:100%;font-size:15px;background:#fff}
+th,td{text-align:left;padding:13px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:none}
+th{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:500;background:var(--surface2)}
+td:first-child{font-weight:600}
+td code,li code,p code{font-size:.9em}
+.yes{color:var(--green);font-weight:600}
+.part{color:var(--alert);font-weight:600}
+.no{color:var(--muted)}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:#fff}
+/* cols */
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.cols>*{min-width:0}
+ul.plain{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:10px;color:var(--muted);font-size:15.5px}
+ul.plain b{color:var(--ink)}
+ul.check{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;color:var(--muted);font-size:15.5px}
+ul.check li{padding-left:26px;position:relative}
+ul.check li::before{content:"";position:absolute;left:0;top:8px;width:13px;height:7px;border-left:2px solid var(--green);border-bottom:2px solid var(--green);transform:rotate(-45deg)}
+ul.check b{color:var(--ink)}
+/* code */
+code{font-family:var(--mono);font-size:.85em;background:#F4F3EF;color:var(--ink);border-radius:6px;padding:2px 6px}
+pre{background:var(--code-bg);color:var(--code-ink);border:none;border-radius:12px;padding:20px 22px;overflow-x:auto;font-family:var(--mono);font-size:13.5px;line-height:1.65;margin:0}
+pre code{background:none;padding:0;font-size:inherit;color:inherit}
+pre .c{color:#8A867C}
+/* pricing */
+.offer{background:#fff;border:1px solid var(--line);border-radius:16px;padding:36px;display:grid;grid-template-columns:auto 1fr;gap:40px;align-items:center;box-shadow:0 1px 2px rgba(19,19,17,.03),0 16px 40px -16px rgba(19,19,17,.1)}
+.offer>*{min-width:0}
+.price{font-family:var(--display);font-weight:700;font-size:clamp(52px,7vw,80px);line-height:1;letter-spacing:-.045em;color:var(--ink)}
+.price small{font-family:var(--body);font-weight:400;font-size:19px;color:var(--muted);letter-spacing:0}
+.founding{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--alert);margin-bottom:8px}
+.note{font-size:14px;color:var(--muted)}
+/* faq */
+.faq{display:flex;flex-direction:column;border-bottom:1px solid var(--line)}
+.faq details{border-top:1px solid var(--line);padding:18px 4px}
+.faq summary{font-family:var(--display);font-weight:600;font-size:16.5px;letter-spacing:-.01em;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.faq summary::after{content:"+";font-family:var(--mono);color:var(--muted);font-size:18px;flex:none;font-weight:400}
+.faq details[open] summary::after{content:"–"}
+.faq details p{margin-top:10px;color:var(--muted);font-size:15.5px}
+/* CTA band */
+.band{background:var(--ink);border-radius:18px;padding:52px;display:flex;flex-direction:column;gap:18px;align-items:flex-start}
+.band h2{color:#fff}
+.band p{color:#ADABA3;max-width:44em;font-size:16px}
+.band .eyebrow{color:#8B8980}
+.band .btn-primary{background:#fff;color:var(--ink)}
+.band .btn-primary:hover{background:#E9E7E2}
+.band .btn-ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.28)}
+.band .btn-ghost:hover{border-color:rgba(255,255,255,.55);color:#fff}
+/* docs layout */
+.docgrid{display:grid;grid-template-columns:200px 1fr;gap:48px;align-items:start}
+.docside{position:sticky;top:110px;display:flex;flex-direction:column;gap:1px}
+.docside a{color:var(--muted);text-decoration:none;padding:6px 12px;border-left:1.5px solid var(--line);font-size:13px;font-weight:500}
+.docside a:hover{color:var(--ink);border-left-color:var(--ink)}
+.docside .sidehead{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding:12px 12px 6px}
+.docbody{display:flex;flex-direction:column;gap:48px;min-width:0}
+.docsec{display:flex;flex-direction:column;gap:14px}
+.docsec p{color:var(--muted);font-size:15.5px}
+.docsec ul.plain,.docsec ol.plain{color:var(--muted);font-size:15.5px}
+ol.plain{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:10px}
+/* yes/no two-col */
+.yesno{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.yn-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:10px}
+.yn-card.never{border-top:2px solid var(--alert)}
+.yn-card.can{border-top:2px solid var(--green)}
+/* footer */
+footer{border-top:1px solid var(--line);background:var(--surface2)}
+.foot-cols{max-width:1080px;margin:0 auto;padding:44px 24px 12px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) auto;gap:32px}
+.foot-col{display:flex;flex-direction:column;gap:9px;font-size:14px}
+.foot-col b{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:4px}
+.foot-col a{color:var(--muted);text-decoration:none}
+.foot-col a:hover{color:var(--ink)}
+.foot-inner{max-width:1080px;margin:0 auto;padding:20px 24px 32px;display:flex;gap:8px 28px;flex-wrap:wrap;align-items:center;color:var(--muted);font-size:13.5px}
+.foot-inner .right{margin-left:auto;max-width:34em}
+@media (max-width:860px){
+  main{gap:64px;padding-inline:18px}
+  .hero,.cols,.steps,.cards3,.cards2,.offer,.demo,.yesno{grid-template-columns:1fr}
+  .hero{gap:36px;padding-top:24px}
+  .facts{grid-template-columns:1fr 1fr;gap:20px}
+  .docgrid{grid-template-columns:1fr}
+  .docside{position:static;flex-direction:row;flex-wrap:wrap;gap:4px 12px}
+  .docside .sidehead{width:100%}
+  .foot-cols{grid-template-columns:1fr 1fr}
+  .demo .btn{justify-self:start}
+  .tw table{font-size:14px}
+  .tw th,.tw td{padding:10px 12px}
+  .faq summary{font-size:16px}
+  .band{padding:32px 24px}
+  .tw.wide table{min-width:680px}
+}
+</style>
+</head><body>
+<nav class="nav"><div class="nav-inner">
+<a class="brand" href="/"><svg width="24" height="24" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="var(--accent)"/><polyline points="6,22 12,21 16,20 19,14 22,9 26,7" fill="none" stroke="var(--accent-ink)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="22" cy="9" r="2.6" fill="var(--alert)"/></svg>Spikewatch</a>
+<div class="nav-links">
+<a href="/product.html">Product</a>
+<a class="on" href="/docs.html">Docs</a>
+<a href="/security.html">Security</a>
+<a href="/pricing.html">Pricing</a>
+<a href="/faq.html">FAQ</a>
+</div>
+<a class="btn btn-primary btn-sm nav-cta" href="/app/">Try the checker</a>
+</div></nav>
+<main style="gap:48px">
+<div class="pagehead">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><span>Documentation</span></nav>
+<h1>Documentation.</h1>
+<p class="lede">Everything needed to run Spikewatch: the hosted service when it launches, and the self-hosted engine that works today.</p>
+</div>
+
+<div class="docgrid">
+<nav class="docside" aria-label="Documentation sections">
+<span class="sidehead">Start</span>
+<a href="#get-started">Get started</a>
+<a href="#the-key">The read-only key</a>
+<span class="sidehead">Reference</span>
+<a href="#configuration">Configuration</a>
+<a href="#alert-reference">Alert format</a>
+<a href="#dollars">Tokens to dollars</a>
+<span class="sidehead">Run it yourself</span>
+<a href="#self-host">Self-host</a>
+<a href="#testing">Testing</a>
+<a href="#limits">Honest limits</a>
+</nav>
+
+<div class="docbody">
+
+<div class="docsec" id="get-started">
+<h2>Get started</h2>
+<p>There are two ways to run Spikewatch, and they use the same detection code:</p>
+<div class="tw"><table>
+<tr><th></th><th>Hosted service</th><th>Self-hosted</th></tr>
+<tr><td>Status</td><td class="part">Waitlist open</td><td class="yes">Works today</td></tr>
+<tr><td>What you do</td><td>Reserve the founding price; at launch you paste a read-only key and pick Slack or email</td><td>Fork the repo, add two secrets, enable the workflow</td></tr>
+<tr><td>Where your key lives</td><td>Stored encrypted; used only to read usage reports</td><td>GitHub encrypted secrets, inside your own repo</td></tr>
+<tr><td>Cost</td><td>$15/month founding price, locked while founding</td><td>Free - you run it on your own GitHub Actions minutes</td></tr>
+</table></div>
+<p>The hosted service charges nobody before the first integration is live. <a href="https://docs.google.com/forms/d/1lK39TgekgINDJVpIVqImyzUDlWx6z58S6so2qZZEIys/viewform">Join the waitlist</a> to hold the founding price either way.</p>
+</div>
+
+<div class="docsec" id="the-key">
+<h2>The read-only key</h2>
+<p>Spikewatch never asks for your regular API key. It uses an <b>Anthropic Admin API key</b>, which is a separate credential type scoped to organization administration - in this case, to reading usage and cost reports only.</p>
+<ul class="plain">
+<li><b>It can:</b> read hourly token usage and cost data for your organization.</li>
+<li><b>It cannot:</b> create messages, spend money, read or write prompts, manage members, or change any setting.</li>
+</ul>
+<p>Create one in the Anthropic Console under your organization's Admin API keys. If it is ever exposed, revoke it in the same place - because it is read-only, a leaked key can reveal usage totals but can never run up a bill.</p>
+</div>
+
+<div class="docsec" id="configuration">
+<h2>Configuration reference</h2>
+<p>Four parameters define when you get paged. The defaults are sane for most small teams; every one is tunable, in the hosted service and as environment variables when self-hosting.</p>
+<div class="tw wide"><table>
+<tr><th>Parameter</th><th>Env var</th><th>Default</th><th>What it does</th><th>Tune it when</th></tr>
+<tr><td>Threshold</td><td><code>MULT</code></td><td>3x</td><td>An hour must reach this multiple of its baseline to alert</td><td>Raise toward 4-5x if normal swings trip it; lower toward 2x if you want earlier warnings</td></tr>
+<tr><td>Floor</td><td><code>FLOOR</code></td><td>$5/hr</td><td>Spend below this in an hour can never alert, whatever the ratio</td><td>Raise it if small absolute spend is never worth a message to you</td></tr>
+<tr><td>Baseline</td><td><code>MODE</code></td><td>sameHour</td><td>How "usual" is computed: median of the same hour over 14 days, or median of the trailing 24 hours (<code>trailing24</code>)</td><td>Switch to trailing24 if your usage has no daily rhythm or is brand new</td></tr>
+<tr><td>Cooldown</td><td><code>COOLDOWN_H</code></td><td>6 hours</td><td>After an alert, repeats are suppressed for this long (and counted)</td><td>Shorten if you want ongoing confirmation during an incident; lengthen if one message is enough</td></tr>
+</table></div>
+<p>The rule reads as one sentence: <i>"If spend in any hour reaches 3x your usual level for that hour (median of the same hour over the last 14 days), and is at least $5, send one message. The same alert is not repeated for 6 hours."</i> The live checker prints this sentence for whatever values you set.</p>
+</div>
+
+<div class="docsec" id="alert-reference">
+<h2>Alert format</h2>
+<p>One message per spike, to your Slack channel via incoming webhook (email at launch):</p>
+<pre><code>Spikewatch: AI spend is at 3.4x your usual level (threshold 3x).
+Hour starting 2026-10-16 04:00 UTC: $41.00. Usual: $12.00.</code></pre>
+<ul class="plain">
+<li><b>Times are UTC</b>, matching how provider usage data is bucketed. The example above is 9:30am IST.</li>
+<li><b>"Usual"</b> is the baseline value the hour was compared against, in dollars, at list prices.</li>
+<li><b>Suppressed repeats</b> during the cooldown window are counted in the job log, not sent.</li>
+</ul>
+</div>
+
+<div class="docsec" id="dollars">
+<h2>How tokens become dollars</h2>
+<p>Anthropic's usage report returns token counts per model per hour. The engine estimates dollars using list prices per million tokens:</p>
+<div class="tw"><table>
+<tr><th>Model family</th><th>Input / 1M</th><th>Output / 1M</th></tr>
+<tr><td>Opus</td><td>$15</td><td>$75</td></tr>
+<tr><td>Sonnet</td><td>$3</td><td>$15</td></tr>
+<tr><td>Haiku</td><td>$1</td><td>$5</td></tr>
+</table></div>
+<p>Cached tokens are priced at their discounted rates: cache writes at 1.25x (5-minute) or 2x (1-hour) the input price, cache reads at 0.1x. Unknown model names fall back to the Sonnet rates. These figures are estimates for spike detection, not billing - if you have negotiated pricing, edit the price table in <code>engine/detect.mjs</code> (it is one small object) and the same code keeps working.</p>
+</div>
+
+<div class="docsec" id="self-host">
+<h2>Self-host the engine</h2>
+<p>The whole system is three small files in the repo: <code>engine/detect.mjs</code> (detection), <code>engine/spikewatch.mjs</code> (the hourly job), and a GitHub Actions workflow that runs them. To run it yourself:</p>
+<ol class="plain">
+<li><b>Fork or clone</b> <a href="https://github.com/shantanupatil-debug/spikewatch">shantanupatil-debug/spikewatch</a> into a private repo of your own.</li>
+<li><b>Create a read-only Admin API key</b> in the Anthropic Console (see <a href="#the-key">The read-only key</a>).</li>
+<li><b>Create a Slack incoming webhook</b> for the channel that should get alerts.</li>
+<li><b>Add two repository secrets</b> (Settings &rarr; Secrets and variables &rarr; Actions):</li>
+</ol>
+<pre><code>ANTHROPIC_ADMIN_KEY=sk-ant-admin-...   <span class="c"># read-only usage key</span>
+SLACK_WEBHOOK_URL=https://hooks.slack.com/services/...</code></pre>
+<ol class="plain" start="5">
+<li><b>Enable the workflow.</b> It is scheduled for 7 minutes past every hour (<code>cron: "7 * * * *"</code>) and can also be run manually from the Actions tab. Tune the rule with the optional secrets <code>MULT</code>, <code>FLOOR</code>, <code>MODE</code>, and <code>COOLDOWN_H</code>.</li>
+</ol>
+<p>Each run prints a one-line summary (<code>checked 360 hours, 1 new alert(s)</code>) in the Actions log, so you can confirm it is alive without waiting for a spike. GitHub's free tier covers the minutes for a job this small.</p>
+</div>
+
+<div class="docsec" id="testing">
+<h2>Testing</h2>
+<p>The workflow runs <code>engine/test.mjs</code> before every scheduled check. If the tests fail, the detection step does not run - a broken alerter fails loudly instead of silently. The suite asserts, among other things:</p>
+<ul class="check">
+<li>A 4.1x spike in 15 days of data produces <b>exactly one</b> alert, on the right hour.</li>
+<li>A second spike inside the cooldown is suppressed, not sent.</li>
+<li>Spend scaled down to cents produces zero alerts (the floor works).</li>
+<li>A usage-report response converts to the expected dollar figure.</li>
+</ul>
+<p>You can exercise the same code interactively, on your own data, in the <a href="/app/">live checker</a> - it imports the engine file straight from this repo and runs it in your browser.</p>
+</div>
+
+<div class="docsec" id="limits">
+<h2>Honest limits</h2>
+<ul class="plain">
+<li><b>Hourly is the floor, not the ceiling.</b> Provider usage APIs publish on a delay and rate-limit reads. Hourly is the fastest cadence that stays honest about that.</li>
+<li><b>Dollars are estimates.</b> Detection uses list prices; invoices include your actual rates, credits, and taxes. The shape of a spike is unaffected.</li>
+<li><b>Anthropic only, today.</b> Other providers join when their usage data access is confirmed working - not before.</li>
+<li><b>It warns; it does not act.</b> Spikewatch never touches your service. If you need automatic shutoffs, pair it with provider-side spend limits.</li>
+</ul>
+</div>
+
+</div>
+</div>
+
+<section class="band">
+<p class="eyebrow" style="color:#7FDCD3">Stuck?</p>
+<h2>The repo is the support doc.</h2>
+<p>Everything described on this page is visible in the source. Open an issue on GitHub if something doesn't match what you read here.</p>
+<div class="cta-row">
+<a class="btn btn-primary" href="https://github.com/shantanupatil-debug/spikewatch">Open the repo</a>
+<a class="btn btn-ghost" style="background:transparent;color:#DCE9EC;border-color:#3A5560" href="/faq.html">Read the FAQ</a>
+</div>
+</section>
+</main>
+<footer>
+<div class="foot-cols">
+<div class="foot-col"><b>Product</b>
+<a href="/product.html">Product overview</a>
+<a href="/product.html#detection">How detection works</a>
+<a href="/app/">Live checker</a>
+<a href="https://github.com/shantanupatil-debug/spikewatch">Source on GitHub</a>
+</div>
+<div class="foot-col"><b>Documentation</b>
+<a href="/docs.html#get-started">Get started</a>
+<a href="/docs.html#configuration">Configuration reference</a>
+<a href="/docs.html#self-host">Self-host the engine</a>
+<a href="/docs.html#alert-reference">Alert reference</a>
+</div>
+<div class="foot-col"><b>Company</b>
+<a href="/pricing.html">Pricing</a>
+<a href="/security.html">Security</a>
+<a href="/faq.html">FAQ</a>
+<a href="https://docs.google.com/forms/d/1lK39TgekgINDJVpIVqImyzUDlWx6z58S6so2qZZEIys/viewform">Launch waitlist</a>
+</div>
+<div class="foot-col"><b>&nbsp;</b><span class="mut small" style="max-width:22em">Reads usage numbers only. Never prompts, responses, or customer data.</span></div>
+</div>
+<div class="foot-inner">
+<span>© 2026 Spikewatch</span>
+<a href="https://github.com/shantanupatil-debug/spikewatch/tree/main/engine">Detection engine source</a>
+<span class="right">The detection engine is open source and the same code runs for every customer.</span>
+</div>
+</footer>
+</body></html>
