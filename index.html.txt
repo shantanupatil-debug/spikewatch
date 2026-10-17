@@ -1,0 +1,66 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Spikewatch checker</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230A766F'/%3E%3Cpolyline points='6,22 12,21 16,20 19,14 22,9 26,7' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='22' cy='9' r='2.6' fill='%23F2B24D'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+:root{--bg:#F2F6F7;--s:#fff;--ink:#0E1B22;--mut:#4A5C66;--line:#D3DEE2;--acc:#0A766F;--alr:#B25E00;--alb:#FFF1DD;--red:#B3261E}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 'Source Sans 3',system-ui,Segoe UI,Arial,sans-serif;padding:24px 16px 56px}
+main{max-width:1000px;margin:0 auto;display:grid;gap:20px}h1{margin:0;font-size:30px;letter-spacing:-.02em;font-family:'Bricolage Grotesque',system-ui,sans-serif;font-weight:800}h2{margin:0 0 10px;font-size:18px;font-family:'Bricolage Grotesque',system-ui,sans-serif;font-weight:600}
+p{margin:0}.mut{color:var(--mut)}.card{background:var(--s);border:1px solid var(--line);border-radius:12px;padding:18px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}@media(max-width:760px){.grid{grid-template-columns:1fr}}
+textarea,input,select{width:100%;font:inherit;padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink)}
+textarea{height:150px;font-family:'JetBrains Mono',ui-monospace,Consolas,monospace;font-size:13px}label{display:grid;gap:4px;font-size:14px;color:var(--mut);font-weight:600}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:end}.row>*{flex:1;min-width:130px}
+button{font:inherit;font-weight:600;font-family:'Bricolage Grotesque',system-ui,sans-serif;padding:9px 14px;border-radius:10px;border:1px solid var(--acc);background:var(--acc);color:#fff;cursor:pointer}button.g{background:#fff;color:var(--ink);border-color:var(--line)}
+.rule{background:var(--alb);border-radius:8px;padding:10px 12px}svg{width:100%;height:auto;display:block}
+table{border-collapse:collapse;width:100%;font-size:14px}th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line)}th{color:var(--mut);font-size:12px;text-transform:uppercase;letter-spacing:.05em}.tw{overflow-x:auto}
+.ok{color:var(--acc);font-weight:700}.bad{color:var(--red);font-weight:700}
+</style></head><body><main>
+<div><p class="mut" style="margin-bottom:6px"><a href="/">&larr; Back to spikewatch.live</a></p><h1>Spikewatch checker</h1><p class="mut">Paste your hourly AI spend, set your rule, see exactly which hours would have sent an alert. Runs in your browser. Nothing is uploaded.</p></div>
+<div class="grid">
+<section class="card"><h2>1. Your hourly spend</h2>
+<p class="mut" style="margin-bottom:8px">CSV lines <code>2026-10-01T09:00Z,12.40</code> (hour, dollars) or an Anthropic <code>usage_report/messages</code> JSON response (1h buckets, converted to estimated dollars).</p>
+<textarea id="data" spellcheck="false"></textarea>
+<div class="row" style="margin-top:10px"><button id="sample" class="g">Load sample with a spike</button><button id="run">Check my data</button></div><p id="msg" class="mut" style="margin-top:8px"></p></section>
+<section class="card"><h2>2. Your rule</h2><div class="row">
+<label>Alert at (x normal)<input id="mult" type="number" min="2" max="6" step="0.5" value="3"></label>
+<label>Ignore below ($/hour)<input id="floor" type="number" min="0" step="1" value="5"></label></div>
+<div class="row" style="margin-top:10px"><label>Normal means<select id="mode"><option value="sameHour">Same hour, last 14 days</option><option value="trailing24">Trailing 24 hours</option></select></label>
+<label>No repeat for (hours)<input id="cool" type="number" min="1" max="48" value="6"></label></div>
+<p id="rule" class="rule" style="margin-top:12px"></p>
+<div class="row" style="margin-top:12px"><label>Slack webhook (optional)<input id="hook" placeholder="https://hooks.slack.com/services/..." autocomplete="off"></label><button id="test" class="g">Send test alert</button></div>
+<p class="mut" style="font-size:13px;margin-top:6px">The webhook is used only from your browser for the test message and is never stored.</p><p id="hmsg" class="mut"></p></section></div>
+<section class="card"><h2>Result</h2><p id="sum" class="mut">Load the sample or paste data to see the result.</p><div id="chart"></div><div class="tw"><table id="tbl"></table></div></section>
+<section class="card"><h2>Run it every hour, hands-free</h2><p class="mut">The same detection runs as a scheduled job in <a href="https://github.com/shantanupatil-debug/spikewatch/tree/main/engine">engine/</a>: it reads your Anthropic usage report with a read-only Admin key every hour and posts one Slack message per spike. Setup is two secrets in a GitHub repo and one workflow file. Dollar figures are estimates from token counts and list prices.</p></section>
+</main>
+<script type="module">
+import {detect,plainRule,alertText,usageToPoints} from "../engine/detect.mjs";
+const $=id=>document.getElementById(id);
+function sample(){const H=3600000,t0=Date.UTC(2026,9,1);const L=[];for(let i=0;i<15*24;i++){const h=i%24;let v=8+(h>=9&&h<=18?6:0)+Math.sin(i)*0.8;if(i===15*24-6)v=52;if(i===15*24-5)v=61;L.push(new Date(t0+i*H).toISOString().slice(0,16)+"Z,"+v.toFixed(2))}return L.join("\n")}
+function parse(txt){txt=txt.trim();if(txt[0]==="{"||txt[0]==="["){const j=JSON.parse(txt);return usageToPoints(j.data?j:{data:j})}
+ return txt.split(/\r?\n/).map(l=>l.trim()).filter(l=>/^\d/.test(l)).map(l=>{const [a,b]=l.split(/[,;\t]/);const t=Date.parse(a.trim());const v=parseFloat(b);if(isNaN(t)||isNaN(v))throw new Error("Cannot read line: "+l);return{t:Math.floor(t/3600000)*3600000,v}}).sort((x,y)=>x.t-y.t)}
+const opts=()=>({mult:+$("mult").value||3,floor:+$("floor").value||0,mode:$("mode").value,cooldownH:+$("cool").value||6});
+let rows=[];
+function chart(){const W=940,H=240,p=34;if(!rows.length){$("chart").innerHTML="";return}
+ const mx=Math.max(...rows.map(r=>r.v),1)*1.1,x=i=>p+i*(W-2*p)/Math.max(rows.length-1,1),y=v=>H-24-v/mx*(H-44);
+ let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Hourly spend with alert hours marked"><line x1="${p}" y1="${H-24}" x2="${W-p}" y2="${H-24}" stroke="#D3DEE2"/>`;
+ s+=`<polyline fill="none" stroke="#0A766F" stroke-width="2" points="${rows.map((r,i)=>x(i)+","+y(r.v)).join(" ")}"/>`;
+ const bl=rows.map((r,i)=>r.baseline!==null?x(i)+","+y(r.baseline*opts().mult):null).filter(Boolean);if(bl.length)s+=`<polyline fill="none" stroke="#B25E00" stroke-dasharray="5 5" stroke-width="1.5" points="${bl.join(" ")}"/>`;
+ rows.forEach((r,i)=>{if(r.alert)s+=`<circle cx="${x(i)}" cy="${y(r.v)}" r="6" fill="#B25E00" stroke="#fff" stroke-width="2"/>`});
+ s+=`<text x="${p}" y="14" font-size="12" fill="#4A5C66">$${mx.toFixed(0)}/hr max · dashed line = ${opts().mult}x normal · orange dots = alerts</text>`;
+ $("chart").innerHTML=s+"</svg>"}
+function run(){try{const pts=parse($("data").value);if(pts.length<30)throw new Error("Need at least 30 hourly points (about 2 days). 14 days gives the best baseline.");
+ const o=opts();rows=detect(pts,o);const al=rows.filter(r=>r.alert);
+ $("sum").innerHTML=`<b>${al.length} alert${al.length===1?"":"s"}</b> across ${rows.length} hours (${(rows.length/24).toFixed(1)} days). ${rows.filter(r=>r.suppressed).length} repeat(s) suppressed by the cooldown.`;
+ $("msg").textContent="";chart();
+ $("tbl").innerHTML="<tr><th>Hour (UTC)</th><th>Spend</th><th>Normal</th><th>Multiple</th><th>Status</th></tr>"+(al.concat(rows.filter(r=>r.suppressed)).sort((a,b)=>a.t-b.t).map(r=>`<tr><td>${new Date(r.t).toISOString().slice(0,13).replace("T"," ")}:00</td><td>$${r.v.toFixed(2)}</td><td>$${r.baseline.toFixed(2)}</td><td>${r.ratio.toFixed(1)}x</td><td class="${r.alert?"bad":"mut"}">${r.alert?"Alert sent":"Suppressed (cooldown)"}</td></tr>`).join("")||"<tr><td colspan=5 class=ok>No spikes. Nothing would have been sent.</td></tr>");
+ window.__last=al[al.length-1]||null}catch(e){$("msg").innerHTML='<span class="bad">'+e.message+"</span>"}}
+function rule(){$("rule").textContent=plainRule(opts())}
+$("sample").onclick=()=>{$("data").value=sample();run()};$("run").onclick=run;
+["mult","floor","mode","cool"].forEach(id=>$(id).addEventListener("input",()=>{rule();if($("data").value.trim())run()}));
+$("test").onclick=async()=>{const u=$("hook").value.trim();if(!/^https:\/\/hooks\.slack\.com\//.test(u)){$("hmsg").innerHTML='<span class="bad">Paste a Slack webhook URL that starts with https://hooks.slack.com/</span>';return}
+ const r=window.__last||{t:Date.now(),v:41,baseline:12,ratio:41/12};const text="[TEST] "+alertText(r,opts());
+ try{await fetch(u,{method:"POST",mode:"no-cors",headers:{"content-type":"text/plain"},body:JSON.stringify({text})});$("hmsg").innerHTML='<span class="ok">Test sent. Check your Slack channel.</span>'}catch(e){$("hmsg").innerHTML='<span class="bad">Could not send: '+e.message+"</span>"}};
+rule();$("data").value=sample();run();
+</script></body></html>
