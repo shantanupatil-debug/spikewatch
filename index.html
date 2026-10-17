@@ -1,56 +1,84 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="google-site-verification" content="FeAzrr3oqgB181FczUcteIF4OzxeL6cYm-0RN4FMCEQ" /><script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","yyytszxnjq");</script>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","yyytszxnjq");</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230A766F'/%3E%3Cpolyline points='6,22 12,21 16,20 19,14 22,9 26,7' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='22' cy='9' r='2.6' fill='%23F2B24D'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap">
 <title>Spikewatch - AI spend spike alerts for small teams</title>
 <meta name="description" content="Spikewatch reads your AI API usage once an hour and sends one Slack or email message when spend crosses 3x your normal. Read-only key, open-source engine, $15/month founding price.">
+<meta name="google-site-verification" content="FeAzrr3oqgB181FczUcteIF4OzxeL6cYm-0RN4FMCEQ" />
 <meta property="og:title" content="Spikewatch - Know when your AI bill jumps, before the invoice does.">
 <meta property="og:description" content="Hourly AI spend spike alerts to Slack or email. Read-only key, nothing prompts-side is stored, open-source detection engine.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://spikewatch.live/">
 <meta name="twitter:card" content="summary">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230A766F'/%3E%3Cpolyline points='6,22 12,21 16,20 19,14 22,9 26,7' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='22' cy='9' r='2.6' fill='%23F2B24D'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
 <style>
 :root{
   --bg:#F2F6F7; --surface:#FFFFFF; --ink:#0E1B22; --muted:#4A5C66; --line:#D3DEE2;
   --accent:#0A766F; --accent-ink:#FFFFFF; --alert:#B25E00; --alert-bg:#FFF1DD;
+  --code-bg:#0E1B22; --code-ink:#DCE9EC;
   --display:'Bricolage Grotesque','Segoe UI',Arial,sans-serif;
   --body:'Source Sans 3','Segoe UI',Arial,sans-serif;
   --mono:'JetBrains Mono',Consolas,monospace;
 }
 @media (prefers-color-scheme: dark){:root{
   --bg:#0B1418; --surface:#122128; --ink:#E6F0F3; --muted:#9DB2BB; --line:#25404B;
-  --accent:#3CCFC4; --accent-ink:#06231F; --alert:#F2B24D; --alert-bg:#2B2210; color-scheme:dark}}
+  --accent:#3CCFC4; --accent-ink:#06231F; --alert:#F2B24D; --alert-bg:#2B2210;
+  --code-bg:#0A1417; --code-ink:#C8DEE2; color-scheme:dark}}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.55}
 main{max-width:1020px;margin:0 auto;display:flex;flex-direction:column;gap:72px;padding-inline:20px;padding-block:24px 64px}
-h1,h2,h3{font-family:var(--display);text-wrap:balance;line-height:1.08;margin:0}
+h1,h2,h3,h4{font-family:var(--display);text-wrap:balance;line-height:1.08;margin:0}
 h1{font-size:clamp(34px,6vw,58px);font-weight:800;letter-spacing:-.02em}
 h2{font-size:clamp(25px,3.4vw,34px);font-weight:600}
-h3{font-size:19px;font-weight:600}
+h3{font-size:20px;font-weight:600}
+h4{font-size:17px;font-weight:600}
 p{margin:0}
 a{color:var(--accent)}
-section{scroll-margin-top:84px}
+section{scroll-margin-top:120px}
+section[id],div[id]{scroll-margin-top:120px}
 .eyebrow{font-family:var(--mono);font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0}
-.lede{color:var(--muted);font-size:20px;max-width:36em}
+.lede{color:var(--muted);font-size:20px;max-width:38em}
 .stack{display:flex;flex-direction:column;gap:18px}
+.mut{color:var(--muted)}
+.small{font-size:15px}
 /* nav */
-.nav{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
 .nav-inner{max-width:1020px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:20px}
-.brand{display:flex;align-items:center;gap:9px;font-family:var(--display);font-weight:800;font-size:19px;letter-spacing:-.01em;color:var(--ink);text-decoration:none}
+.brand{display:flex;align-items:center;gap:9px;font-family:var(--display);font-weight:800;font-size:19px;letter-spacing:-.01em;color:var(--ink);text-decoration:none;flex:none}
 .brand svg{display:block}
-.nav-links{display:flex;gap:18px;margin-left:auto;font-size:16px}
-.nav-links a{color:var(--muted);text-decoration:none}
+.nav-links{display:flex;gap:18px;margin-left:auto;font-size:16px;align-items:center}
+.nav-links a{color:var(--muted);text-decoration:none;white-space:nowrap}
 .nav-links a:hover{color:var(--ink)}
+.nav-links a.on{color:var(--ink);font-weight:600;box-shadow:inset 0 -2px 0 var(--accent)}
 .nav-cta{margin-left:6px}
-@media (max-width:760px){.nav-links{display:none}.nav-cta{margin-left:auto}}
+@media (max-width:860px){
+  .nav-inner{flex-wrap:wrap;gap:10px 14px;padding-bottom:0}
+  .nav-cta{margin-left:auto;margin-bottom:10px}
+  .nav-links{order:3;width:100%;margin-left:0;overflow-x:auto;gap:16px;padding:2px 0 10px;scrollbar-width:none}
+  .nav-links::-webkit-scrollbar{display:none}
+}
 /* buttons */
 .btn{display:inline-block;font-family:var(--display);font-weight:600;font-size:17px;line-height:1;padding:14px 22px;border-radius:10px;text-decoration:none;border:1px solid transparent;white-space:nowrap}
 .btn-primary{background:var(--accent);color:var(--accent-ink)}
 .btn-ghost{border-color:var(--line);color:var(--ink);background:var(--surface)}
 .btn-sm{padding:10px 16px;font-size:15px}
 .cta-row{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+/* breadcrumb */
+.crumbs{font-size:14.5px;color:var(--muted);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.crumbs a{color:var(--muted);text-decoration:none}
+.crumbs a:hover{color:var(--ink)}
+/* page header + tabs */
+.pagehead{display:flex;flex-direction:column;gap:16px;padding-top:26px}
+.pagehead h1{font-size:clamp(32px,5vw,50px)}
+.tabs{position:sticky;top:57px;z-index:15;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-block:1px solid var(--line);margin-inline:-20px;padding-inline:20px}
+.tabs-inner{display:flex;gap:22px;overflow-x:auto;max-width:1020px;margin:0 auto;scrollbar-width:none}
+.tabs-inner::-webkit-scrollbar{display:none}
+.tabs a{flex:none;padding:13px 0;font-size:15.5px;color:var(--muted);text-decoration:none;border-bottom:2px solid transparent}
+.tabs a:hover{color:var(--ink)}
+.tabs a.cta{margin-left:auto;color:var(--accent);font-weight:600}
+@media (max-width:860px){.tabs{top:104px}}
 /* hero */
 .hero{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center;padding-top:28px}
 .hero>*{min-width:0}
@@ -61,34 +89,57 @@ section{scroll-margin-top:84px}
 .chart svg{display:block;width:100%;height:auto}
 .alertline{margin-top:10px;display:flex;gap:10px;align-items:flex-start;background:var(--alert-bg);color:var(--ink);border-radius:8px;padding:10px 12px;font-size:16px}
 .alertline b{font-family:var(--mono);font-size:13px;color:var(--alert);white-space:nowrap}
-/* problem cards */
+/* fact strip */
+.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;border-block:1px solid var(--line);padding-block:22px}
+.facts div{display:flex;flex-direction:column;gap:4px}
+.facts b{font-family:var(--display);font-size:21px;font-weight:600}
+.facts span{color:var(--muted);font-size:14.5px}
+/* cards */
 .cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.cards2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:8px}
 .card p{color:var(--muted);font-size:16.5px}
+.card h3,.card h4{margin:0}
+.card .more{margin-top:auto;padding-top:6px;font-size:15.5px}
 /* steps */
-.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;list-style:none;margin:0;padding:0;counter-reset:step}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;list-style:none;margin:0;padding:0}
 .steps li{min-width:0;border-top:2px solid var(--accent);padding-top:14px;display:flex;flex-direction:column;gap:6px}
 .steps strong{font-family:var(--display);font-size:20px}
 .steps span{color:var(--muted)}
+/* numbered detail blocks */
+.detail{display:grid;grid-template-columns:56px 1fr;gap:18px;align-items:start}
+.detail .num{font-family:var(--mono);color:var(--accent);font-size:15px;border:1px solid var(--line);border-radius:10px;width:48px;height:48px;display:flex;align-items:center;justify-content:center;background:var(--surface)}
+.detail .body{display:flex;flex-direction:column;gap:8px}
+.detail .body p{color:var(--muted)}
 /* demo strip */
 .demo{display:grid;grid-template-columns:1fr auto;gap:28px;align-items:center;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:14px;padding:28px}
 .demo p{color:var(--muted)}
 .demo .btn{align-self:center}
-/* compare */
+/* tables */
 table{border-collapse:collapse;width:100%;font-size:16px;background:var(--surface);border-radius:14px;overflow:hidden}
 th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}
 tr:last-child td{border-bottom:none}
 th{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500}
 td:first-child{font-weight:600}
+td code,li code,p code{font-size:.92em}
 .yes{color:var(--accent);font-weight:600}
 .part{color:var(--alert);font-weight:600}
 .no{color:var(--muted)}
 .tw{overflow-x:auto;border:1px solid var(--line);border-radius:14px}
-/* two cols */
+/* cols */
 .cols{display:grid;grid-template-columns:1fr 1fr;gap:28px}
 .cols>*{min-width:0}
 ul.plain{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;color:var(--muted)}
 ul.plain b{color:var(--ink)}
+ul.check{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px;color:var(--muted)}
+ul.check li{padding-left:26px;position:relative}
+ul.check li::before{content:"";position:absolute;left:0;top:9px;width:14px;height:7px;border-left:2.5px solid var(--accent);border-bottom:2.5px solid var(--accent);transform:rotate(-45deg)}
+ul.check b{color:var(--ink)}
+/* code */
+code{font-family:var(--mono);font-size:.9em;background:color-mix(in srgb,var(--accent) 10%,transparent);border-radius:5px;padding:1px 5px}
+pre{background:var(--code-bg);color:var(--code-ink);border-radius:12px;padding:18px 20px;overflow-x:auto;font-family:var(--mono);font-size:14px;line-height:1.6;margin:0}
+pre code{background:none;padding:0;font-size:inherit;color:inherit}
+pre .c{color:#7FA3AD}
 /* pricing */
 .offer{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:32px;display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:center}
 .offer>*{min-width:0}
@@ -103,27 +154,61 @@ ul.plain b{color:var(--ink)}
 .faq summary::after{content:"+";font-family:var(--mono);color:var(--accent);font-size:20px;flex:none}
 .faq details[open] summary::after{content:"–"}
 .faq details p{margin-top:10px;color:var(--muted)}
+/* CTA band */
+.band{background:var(--code-bg);color:var(--code-ink);border-radius:16px;padding:40px;display:flex;flex-direction:column;gap:16px;align-items:flex-start}
+.band h2{color:#fff}
+.band p{color:#A9C2C9;max-width:44em}
+/* docs layout */
+.docgrid{display:grid;grid-template-columns:210px 1fr;gap:40px;align-items:start}
+.docside{position:sticky;top:120px;display:flex;flex-direction:column;gap:2px;font-size:15.5px}
+.docside a{color:var(--muted);text-decoration:none;padding:6px 10px;border-left:2px solid var(--line)}
+.docside a:hover{color:var(--ink);border-left-color:var(--accent)}
+.docside .sidehead{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:10px 10px 4px}
+.docbody{display:flex;flex-direction:column;gap:44px;min-width:0}
+.docsec{display:flex;flex-direction:column;gap:14px}
+.docsec p{color:var(--muted)}
+.docsec ul.plain,.docsec ol.plain{color:var(--muted)}
+ol.plain{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:8px}
+/* yes/no two-col */
+.yesno{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.yn-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:10px}
+.yn-card.never{border-top:3px solid var(--alert)}
+.yn-card.can{border-top:3px solid var(--accent)}
 /* footer */
-footer{border-top:1px solid var(--line)}
-.foot-inner{max-width:1020px;margin:0 auto;padding:28px 20px;display:flex;gap:14px 28px;flex-wrap:wrap;align-items:center;color:var(--muted);font-size:15px}
-.foot-inner a{color:var(--muted)}
-.foot-inner .right{margin-left:auto}
-@media (max-width:760px){.hero,.cols,.steps,.cards3,.offer,.demo{grid-template-columns:1fr}.demo .btn{justify-self:start}.tw table{table-layout:fixed;font-size:13.5px}.tw th,.tw td{padding:9px 8px;overflow-wrap:break-word}.tw th{font-size:10px;letter-spacing:0;overflow-wrap:normal}.tw td:first-child,.tw th:first-child{width:31%}.faq summary{font-size:17px}}
+footer{border-top:1px solid var(--line);margin-top:0}
+.foot-cols{max-width:1020px;margin:0 auto;padding:36px 20px 8px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) auto;gap:28px}
+.foot-col{display:flex;flex-direction:column;gap:8px;font-size:15.5px}
+.foot-col b{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:4px}
+.foot-col a{color:var(--muted);text-decoration:none}
+.foot-col a:hover{color:var(--ink)}
+.foot-inner{max-width:1020px;margin:0 auto;padding:18px 20px 28px;display:flex;gap:8px 28px;flex-wrap:wrap;align-items:center;color:var(--muted);font-size:14.5px}
+.foot-inner .right{margin-left:auto;max-width:34em}
+@media (max-width:860px){
+  .hero,.cols,.steps,.cards3,.cards2,.offer,.demo,.yesno{grid-template-columns:1fr}
+  .facts{grid-template-columns:1fr 1fr}
+  .docgrid{grid-template-columns:1fr}
+  .docside{position:static;flex-direction:row;flex-wrap:wrap;gap:4px 12px}
+  .docside .sidehead{width:100%}
+  .foot-cols{grid-template-columns:1fr 1fr}
+  .demo .btn{justify-self:start}
+  .tw table{font-size:14.5px}
+  .tw th,.tw td{padding:9px 10px}
+  .faq summary{font-size:17px}
+  .band{padding:28px}
+}
 </style>
 </head><body>
-
 <nav class="nav"><div class="nav-inner">
 <a class="brand" href="/"><svg width="24" height="24" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="var(--accent)"/><polyline points="6,22 12,21 16,20 19,14 22,9 26,7" fill="none" stroke="var(--accent-ink)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="22" cy="9" r="2.6" fill="var(--alert)"/></svg>Spikewatch</a>
 <div class="nav-links">
-<a href="#how">How it works</a>
-<a href="#demo">Demo</a>
-<a href="#compare">Compare</a>
-<a href="#pricing">Pricing</a>
-<a href="#faq">FAQ</a>
+<a href="/product.html">Product</a>
+<a href="/docs.html">Docs</a>
+<a href="/security.html">Security</a>
+<a href="/pricing.html">Pricing</a>
+<a href="/faq.html">FAQ</a>
 </div>
 <a class="btn btn-primary btn-sm nav-cta" href="/app/">Try the checker</a>
 </div></nav>
-
 <main>
 <section class="hero">
 <div class="stack">
@@ -132,7 +217,7 @@ footer{border-top:1px solid var(--line)}
 <p class="lede">Spikewatch reads your AI API usage once an hour and sends one Slack or email message when spend crosses 3x your normal. Paste a read-only key, set your channel, done.</p>
 <div class="cta-row">
 <a class="btn btn-primary" href="/app/">Try the live checker</a>
-<a class="btn btn-ghost" href="#pricing">See pricing</a>
+<a class="btn btn-ghost" href="/product.html">Explore the product</a>
 </div>
 <ul class="trust">
 <li>Read-only key, nothing prompts-side is stored</li>
@@ -149,8 +234,15 @@ footer{border-top:1px solid var(--line)}
 <text x="14" y="226" font-family="JetBrains Mono, monospace" font-size="13" fill="var(--muted)">normal hourly spend</text>
 <text x="256" y="112" font-family="JetBrains Mono, monospace" font-size="13" fill="var(--ink)" text-anchor="end">alert sent</text>
 </svg>
-<div class="alertline"><b>SLACK</b><span>Spend is at 3.4x your usual level for this hour. Latest hour: $41. Usual: $12.</span></div>
+<div class="alertline"><b>SLACK</b><span>Spikewatch: AI spend is at 3.4x your usual level (threshold 3x). Hour starting 2026-10-16 04:00 UTC: $41.00. Usual: $12.00.</span></div>
 </div>
+</section>
+
+<section class="facts">
+<div><b>1 hour</b><span>worst case between a spike starting and you hearing about it</span></div>
+<div><b>3x</b><span>default alert threshold, measured against your own baseline</span></div>
+<div><b>$15/mo</b><span>founding price, locked for the first teams</span></div>
+<div><b>0</b><span>prompts, responses, or customer records ever read</span></div>
 </section>
 
 <section class="stack">
@@ -163,7 +255,7 @@ footer{border-top:1px solid var(--line)}
 </div>
 </section>
 
-<section class="stack" id="how">
+<section class="stack">
 <p class="eyebrow">How it works</p>
 <h2>Set it up once. Hear from it rarely.</h2>
 <ol class="steps">
@@ -171,9 +263,10 @@ footer{border-top:1px solid var(--line)}
 <li><strong>It learns your normal</strong><span>Each hour is compared with your trailing average for that time of day.</span></li>
 <li><strong>You get one message</strong><span>Only when spend crosses the line you set. Default is 3x.</span></li>
 </ol>
+<p class="mut">The full mechanics - baselines, thresholds, the floor, the cooldown, and a worked example with real numbers - are on the <a href="/product.html#detection">product page</a>.</p>
 </section>
 
-<section class="demo" id="demo">
+<section class="demo">
 <div class="stack">
 <p class="eyebrow">Try it on your numbers</p>
 <h2>See which hours would have paged you.</h2>
@@ -182,7 +275,7 @@ footer{border-top:1px solid var(--line)}
 <a class="btn btn-primary" href="/app/">Open the checker</a>
 </section>
 
-<section class="stack" id="compare">
+<section class="stack">
 <p class="eyebrow">Where it fits</p>
 <h2>An alarm, not another dashboard.</h2>
 <div class="tw"><table>
@@ -213,14 +306,14 @@ footer{border-top:1px solid var(--line)}
 </div>
 </section>
 
-<section class="offer" id="pricing">
+<section class="offer">
 <div>
 <span class="founding">Founding price</span>
 <div class="price">$15<small> / month</small></div>
 </div>
 <div class="stack">
 <p><b>For the first teams, locked in while it's founding.</b> Hourly checks, Slack and email alerts, trailing-baseline detection, cancel any time. Nobody is charged before the first integration is live.</p>
-<p class="note">Comparable tools start around $29 a month and are built for debugging, not spend alerts. Spikewatch does one job and stays out of the way.</p>
+<p class="note">Comparable tools start around $29 a month and are built for debugging, not spend alerts. Spikewatch does one job and stays out of the way. The <a href="/pricing.html">pricing page</a> has the full breakdown.</p>
 <div class="cta-row">
 <a class="btn btn-primary" href="https://docs.google.com/forms/d/1lK39TgekgINDJVpIVqImyzUDlWx6z58S6so2qZZEIys/viewform">Reserve the founding price</a>
 <a class="btn btn-ghost" href="https://github.com/shantanupatil-debug/spikewatch">Star it on GitHub</a>
@@ -228,26 +321,42 @@ footer{border-top:1px solid var(--line)}
 </div>
 </section>
 
-<section class="stack" id="faq">
-<p class="eyebrow">FAQ</p>
-<h2>Fair questions.</h2>
-<div class="faq">
-<details><summary>Is my API key safe?</summary><p>You create a read-only key (for Anthropic, an Admin API key scoped to usage and cost reports). It can read usage numbers and nothing else - it cannot make requests, change settings, or see prompts and responses. Keys are stored encrypted, and the detection code that uses them is open source.</p></details>
-<details><summary>Which providers does it watch?</summary><p>Anthropic first - usage and cost reports through the Admin API are confirmed working. OpenAI, Google and OpenRouter are added only after their usage data access is confirmed. The live checker on this site already works with Anthropic usage reports today.</p></details>
-<details><summary>Will it cap or switch off my spend?</summary><p>No. Spikewatch warns a human in time to act; it never touches your service. If you want hard caps, set them at your provider - Spikewatch makes sure you find out before it comes to that.</p></details>
-<details><summary>Why hourly and not real time?</summary><p>Provider usage APIs update on a delay and rate-limit reads, so hourly is the fastest honest cadence. A loop that starts at 2am is caught by 3am, not on the 30-day invoice.</p></details>
-<details><summary>Who runs this?</summary><p>One founder. Signup, billing, the hourly checks and the alerts are fully automated - there is no onboarding call and no support queue. The detection engine is open source and the same code runs for every customer.</p></details>
+<section class="band">
+<p class="eyebrow" style="color:#7FDCD3">Open and inspectable</p>
+<h2>Read the engine before you trust it.</h2>
+<p>The detection logic, the hourly job, and its test suite are public in the GitHub repo. The same code that runs in the live checker on this site is what runs for every customer, every hour. No black box.</p>
+<div class="cta-row">
+<a class="btn btn-primary" href="https://github.com/shantanupatil-debug/spikewatch/tree/main/engine">Read the engine source</a>
+<a class="btn btn-ghost" style="background:transparent;color:#DCE9EC;border-color:#3A5560" href="/docs.html#self-host">Self-host it instead</a>
 </div>
 </section>
 </main>
-
-<footer><div class="foot-inner">
-<span>© 2026 Spikewatch</span>
-<a href="https://github.com/shantanupatil-debug/spikewatch">GitHub</a>
-<a href="https://github.com/shantanupatil-debug/spikewatch/tree/main/engine">Detection engine source</a>
+<footer>
+<div class="foot-cols">
+<div class="foot-col"><b>Product</b>
+<a href="/product.html">Product overview</a>
+<a href="/product.html#detection">How detection works</a>
 <a href="/app/">Live checker</a>
+<a href="https://github.com/shantanupatil-debug/spikewatch">Source on GitHub</a>
+</div>
+<div class="foot-col"><b>Documentation</b>
+<a href="/docs.html#get-started">Get started</a>
+<a href="/docs.html#configuration">Configuration reference</a>
+<a href="/docs.html#self-host">Self-host the engine</a>
+<a href="/docs.html#alert-reference">Alert reference</a>
+</div>
+<div class="foot-col"><b>Company</b>
+<a href="/pricing.html">Pricing</a>
+<a href="/security.html">Security</a>
+<a href="/faq.html">FAQ</a>
 <a href="https://docs.google.com/forms/d/1lK39TgekgINDJVpIVqImyzUDlWx6z58S6so2qZZEIys/viewform">Launch waitlist</a>
-<span class="right">Reads usage numbers only. Never prompts, responses, or customer data.</span>
-</div></footer>
-
+</div>
+<div class="foot-col"><b>&nbsp;</b><span class="mut small" style="max-width:22em">Reads usage numbers only. Never prompts, responses, or customer data.</span></div>
+</div>
+<div class="foot-inner">
+<span>© 2026 Spikewatch</span>
+<a href="https://github.com/shantanupatil-debug/spikewatch/tree/main/engine">Detection engine source</a>
+<span class="right">The detection engine is open source and the same code runs for every customer.</span>
+</div>
+</footer>
 </body></html>
