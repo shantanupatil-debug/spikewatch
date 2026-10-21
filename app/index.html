@@ -1,7 +1,7 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Spikewatch checker</title>
 <meta name="description" content="Paste your hourly AI spend and see exactly which hours would have triggered a Spikewatch alert. Runs in your browser, nothing is uploaded.">
-<meta name="theme-color" content="#08090A">
+<meta name="theme-color" content="#181818">
 <script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","yyytszxnjq");</script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230A766F'/%3E%3Cpolyline points='6,22 12,21 16,20 19,14 22,9 26,7' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='22' cy='9' r='2.6' fill='%23F2B24D'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -37,8 +37,8 @@ textarea{height:168px;min-height:120px;resize:vertical;font-family:var(--mono);f
 .fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 @media(max-width:480px){.fields{grid-template-columns:1fr}}
 .actions{display:flex;gap:10px;flex-wrap:wrap}
-button{font:inherit;font-weight:600;font-size:14px;min-height:44px;padding:0 18px;border-radius:8px;border:1px solid transparent;background:#EDEFF0;color:#08090A;cursor:pointer;transition:background .15s,border-color .15s}
-button:hover{background:#fff}
+button{font:inherit;font-weight:600;font-size:14px;min-height:44px;padding:0 18px;border-radius:8px;border:1px solid transparent;background:#0078D4;color:#fff;cursor:pointer;transition:background .15s,border-color .15s}
+button:hover{background:#026EC1}
 button.g{background:rgba(255,255,255,.03);color:var(--ink);border-color:var(--line2)}
 button.g:hover{border-color:rgba(255,255,255,.24);background:rgba(255,255,255,.07)}
 button.link{background:none;border:none;color:var(--muted);padding:0 6px;font-weight:500;text-decoration:underline;text-underline-offset:3px}
@@ -122,6 +122,28 @@ select option{background:#111416;color:var(--ink)}
 footer{background:transparent}
 .foot-col b{font-family:var(--body);font-size:13px;letter-spacing:0;text-transform:none;color:var(--ink);font-weight:600}
 .foot-inner{border-top:1px solid var(--line)}
+
+/* ===== VS Code theme (v3) checker overrides ===== */
+:root{--grid:rgba(255,255,255,.07);--accent:#4EC9B0}
+.nav-inner{max-width:1080px}
+.card{background:var(--surface);border-radius:6px}
+.chip{border-radius:4px;background:var(--surface);border-color:var(--line2);color:#79AB64;font-size:12px;text-transform:none;letter-spacing:0}
+.chip::before{content:"//";width:auto;height:auto;background:none;border-radius:0;color:#6A9955}
+.step{border-radius:4px;background:#202020;border-color:var(--line2);color:var(--syn-num);font-family:var(--mono)}
+textarea,input,select{border-radius:2px;background:#313131;border-color:#3C3C3C}
+textarea:focus,input:focus,select:focus{border-color:#0078D4;box-shadow:none;outline:1px solid #0078D4}
+button{border-radius:4px;font-weight:500}
+button.g{background:#313131;border-color:#3C3C3C;color:var(--ink2)}
+button.g:hover{background:#3C3C3C;border-color:#464646;color:#fff}
+.rule{border-radius:4px}
+.stat{border-radius:4px;background:#202020}
+.stat b{color:var(--syn-num)}
+.stat.hot b{color:var(--alert)}
+.tw{border-radius:4px;background:var(--surface)}
+th{background:#202020}
+.slack{border-radius:6px}
+.badge{border-radius:3px}
+.nav-links a{padding:0 16px}
 </style></head><body>
 <nav class="nav"><div class="nav-inner">
 <a class="brand" href="/"><svg width="24" height="24" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="var(--accent)"/><polyline points="6,22 12,21 16,20 19,14 22,9 26,7" fill="none" stroke="var(--accent-ink)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="22" cy="9" r="2.6" fill="var(--alert)"/></svg>Spikewatch</a>
@@ -224,8 +246,8 @@ function chart(){const box=$("chart");if(!rows.length){box.innerHTML="";return}
  s+=`<polyline fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" points="${rows.map((r,i)=>x(i)+","+y(r.v)).join(" ")}"/>`;
  let seg=[];const flush=()=>{if(seg.length>1)s+=`<polyline fill="none" stroke="var(--alert)" stroke-width="1.5" stroke-dasharray="5 4" points="${seg.join(" ")}"/>`;seg=[]};
  thr.forEach((v,i)=>{if(v===null)flush();else seg.push(x(i)+","+y(v))});flush();
- rows.forEach((r,i)=>{if(r.suppressed&&!r.alert)s+=`<circle cx="${x(i)}" cy="${y(r.v)}" r="4.5" fill="#0C0E10" stroke="rgba(255,255,255,.35)" stroke-width="2"><title>${fmtHour(r.t)} UTC: ${money(r.v)} (suppressed by cooldown)</title></circle>`});
- rows.forEach((r,i)=>{if(r.alert)s+=`<circle cx="${x(i)}" cy="${y(r.v)}" r="9" fill="var(--alert)" opacity=".16"/><circle cx="${x(i)}" cy="${y(r.v)}" r="5.5" fill="var(--alert)" stroke="#0C0E10" stroke-width="2"><title>${fmtHour(r.t)} UTC: ${money(r.v)}, ${r.ratio.toFixed(1)}x normal</title></circle>`});
+ rows.forEach((r,i)=>{if(r.suppressed&&!r.alert)s+=`<circle cx="${x(i)}" cy="${y(r.v)}" r="4.5" fill="#1F1F1F" stroke="rgba(255,255,255,.35)" stroke-width="2"><title>${fmtHour(r.t)} UTC: ${money(r.v)} (suppressed by cooldown)</title></circle>`});
+ rows.forEach((r,i)=>{if(r.alert)s+=`<circle cx="${x(i)}" cy="${y(r.v)}" r="9" fill="var(--alert)" opacity=".16"/><circle cx="${x(i)}" cy="${y(r.v)}" r="5.5" fill="var(--alert)" stroke="#1F1F1F" stroke-width="2"><title>${fmtHour(r.t)} UTC: ${money(r.v)}, ${r.ratio.toFixed(1)}x normal</title></circle>`});
  box.innerHTML=s+"</svg>"}
 function run(){const msg=$("msg");
  try{const pts=parse($("data").value);if(pts.length<30)throw new Error("Need at least 30 hourly points (about 2 days). 14 days gives the best baseline. You have "+pts.length+".");
