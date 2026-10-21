@@ -40,3 +40,14 @@ export function usageToPoints(resp){
     return {t:Date.parse(b.starting_at),v:+usd.toFixed(4)};
   }).sort((a,b)=>a.t-b.t);
 }
+// Weekly "all clear" digest: a short proof-of-life summary so a quiet week still shows the watcher is running.
+// rows: output of detect(); end: ms timestamp of the end of the week (exclusive).
+export function weeklyDigest(rows,end){
+  const H=3600000,W=7*24*H,sum=a=>a.reduce((s,r)=>s+r.v,0);
+  const wk=rows.filter(r=>r.t>=end-W&&r.t<end), prev=rows.filter(r=>r.t>=end-2*W&&r.t<end-W);
+  const tw=sum(wk),pw=sum(prev),alerts=wk.filter(r=>r.alert).length;
+  const peak=wk.reduce((a,r)=>r.v>a.v?r:a,wk[0]||{t:end,v:0});
+  const ch=pw>0&&prev.length>=6*24?` (${tw>=pw?"+":""}${((tw-pw)/pw*100).toFixed(0)}% vs the week before)`:"";
+  const when=new Date(peak.t).toISOString().slice(0,13).replace("T"," ")+":00 UTC";
+  return `Spikewatch weekly: $${tw.toFixed(2)} estimated AI spend in the last 7 days${ch}. ${alerts?`${alerts} spike alert${alerts>1?"s":""} sent.`:"No spikes, all quiet."} Busiest hour: ${when} at $${peak.v.toFixed(2)}. Still checking every hour.`;
+}
