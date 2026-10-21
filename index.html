@@ -7,7 +7,7 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://spikewatch.live/">
 <meta name="twitter:card" content="summary">
-<meta name="theme-color" content="#08090A">
+<meta name="theme-color" content="#181818">
 <script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","yyytszxnjq");</script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2314B8A6'/%3E%3Cpolyline points='6,22 12,21 16,20 19,14 22,9 26,7' fill='none' stroke='%2303201C' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='22' cy='9' r='2.6' fill='%2303201C'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -40,7 +40,7 @@
 .hero-c .lede{font-size:18.5px;max-width:34em;color:var(--muted)}
 .hero-c .cta-row{justify-content:center;margin-top:6px}
 /* demo window */
-.window{max-width:980px;margin:24px auto 0;border:1px solid var(--line2);border-radius:18px;background:linear-gradient(180deg,#111417,#0C0E10);box-shadow:0 0 0 1px rgba(0,0,0,.6),0 40px 120px -40px rgba(45,212,191,.22),0 30px 80px -30px rgba(0,0,0,.9);overflow:hidden;text-align:left}
+.window{max-width:980px;margin:24px auto 0;border:1px solid var(--line2);border-radius:18px;background:linear-gradient(180deg,#111417,#0C0E10);box-shadow:0 0 0 1px rgba(0,0,0,.6),0 40px 120px -40px rgba(0,120,212,.22),0 30px 80px -30px rgba(0,0,0,.9);overflow:hidden;text-align:left}
 .win-bar{display:flex;align-items:center;gap:14px;padding:12px 16px;border-bottom:1px solid var(--line)}
 .dots{display:flex;gap:6px}.dots i{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.12)}
 .win-bar b{font-size:13px;font-weight:500;color:var(--ink2)}
@@ -109,7 +109,7 @@
 .range-row{display:flex;align-items:center;gap:12px}
 .range-row input{flex:1;accent-color:var(--accent);min-height:32px}
 .range-row output{font-family:var(--mono);color:var(--ink);min-width:2.5em;text-align:right}
-.calc-out{padding:32px;display:flex;flex-direction:column;gap:22px;background:radial-gradient(500px 240px at 100% 0%,rgba(45,212,191,.08),transparent 70%)}
+.calc-out{padding:32px;display:flex;flex-direction:column;gap:22px;background:radial-gradient(500px 240px at 100% 0%,rgba(0,120,212,.08),transparent 70%)}
 @media(max-width:820px){.calc-out{padding:22px}}
 .bars{display:flex;flex-direction:column;gap:16px}
 .bar-row{display:flex;flex-direction:column;gap:8px}
@@ -148,7 +148,7 @@
 .msg.hot p{color:var(--ink)}
 /* compare */
 th.us,td.us{background:var(--accent-soft)}
-thead th.us{color:var(--accent);background:rgba(45,212,191,.14)}
+thead th.us{color:var(--accent);background:rgba(0,120,212,.14)}
 .tw table{min-width:620px}
 .fit{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
 @media(max-width:760px){.fit{grid-template-columns:1fr}}
@@ -157,7 +157,7 @@ thead th.us{color:var(--accent);background:rgba(45,212,191,.14)}
 /* pricing + faq */
 .pf{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:start}
 @media(max-width:900px){.pf{grid-template-columns:1fr;gap:48px}}
-.plan{position:relative;border:1px solid var(--line2);border-radius:20px;padding:32px;background:radial-gradient(420px 200px at 50% -20%,rgba(45,212,191,.16),transparent 70%),var(--surface);display:flex;flex-direction:column;gap:22px}
+.plan{position:relative;border:1px solid var(--line2);border-radius:20px;padding:32px;background:radial-gradient(420px 200px at 50% -20%,rgba(0,120,212,.16),transparent 70%),var(--surface);display:flex;flex-direction:column;gap:22px}
 @media(max-width:700px){.plan{padding:24px}}
 .plan .tag{align-self:flex-start;font-size:12.5px;font-weight:500;color:var(--alert);background:var(--alert-bg);border:1px solid var(--alert-line);border-radius:999px;padding:3px 10px}
 .amount{display:flex;align-items:baseline;gap:8px}
@@ -169,7 +169,7 @@ thead th.us{color:var(--accent);background:rgba(45,212,191,.14)}
 .plan .btn{width:100%}
 .plan .reassure{justify-content:flex-start}
 /* final */
-.final{position:relative;overflow:hidden;border:1px solid var(--line2);border-radius:24px;padding:80px 32px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:20px;background:radial-gradient(600px 300px at 50% 120%,rgba(45,212,191,.22),transparent 70%),var(--surface)}
+.final{position:relative;overflow:hidden;border:1px solid var(--line2);border-radius:24px;padding:80px 32px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:20px;background:radial-gradient(600px 300px at 50% 120%,rgba(0,120,212,.22),transparent 70%),var(--surface)}
 .final::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:44px 44px;-webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 100%,#000,transparent 70%);mask-image:radial-gradient(ellipse 70% 60% at 50% 100%,#000,transparent 70%);pointer-events:none}
 .final>*{position:relative}
 @media(max-width:700px){.final{padding:48px 20px;border-radius:18px}}
@@ -182,6 +182,50 @@ thead th.us{color:var(--accent);background:rgba(45,212,191,.14)}
 .sticky div{font-size:12.5px;line-height:1.35;color:var(--muted);flex:1}
 .sticky div b{display:block;font-size:14px}
 @media(max-width:760px){.sticky{display:flex}footer{padding-bottom:76px}}
+
+/* ===== VS Code theme (v3) landing overrides ===== */
+.hero-c::before{background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px)}
+.pill{font-family:var(--mono);font-size:12.5px;border-radius:4px;background:var(--surface);border-color:var(--line2);color:var(--syn-fn);padding:0 12px}
+.pill .kw{color:var(--syn-kw)}.pill .pn{color:#FFD700}.pill .cm{color:#79AB64}
+.pill i{background:#0078D4;box-shadow:0 0 0 3px rgba(0,120,212,.25)}
+@media(max-width:560px){.pill .cm{display:none}}
+.hero-c h1 span{background:linear-gradient(180deg,#FFFFFF 15%,#A8A8A8);-webkit-background-clip:text;background-clip:text}
+.window{background:var(--bg);border-color:var(--line2);border-radius:8px;box-shadow:0 0 0 1px rgba(0,0,0,.5),0 40px 100px -40px rgba(0,120,212,.30),0 30px 70px -30px rgba(0,0,0,.85)}
+.win-bar{background:var(--surface);padding:0 0 0 14px;gap:12px;border-bottom:1px solid var(--line);min-height:40px}
+.win-bar b{align-self:stretch;display:flex;align-items:center;gap:8px;padding:0 16px;background:var(--bg);color:#fff;font-family:var(--body);font-weight:400;font-size:13px;box-shadow:inset 0 1px 0 #0078D4;border-left:1px solid var(--line);border-right:1px solid var(--line)}
+.win-bar b::before{content:"TS";font:700 9.5px/1 var(--mono);color:#3178C6;background:#1F2A3A;padding:3px 3px;border-radius:2px}
+.live{padding-right:14px;color:var(--green)}
+.win-side{background:var(--surface)}
+.chip{border-radius:4px;border-color:var(--line2);font-family:var(--mono);font-size:12.5px}
+.chip[aria-pressed=true]{background:#04395E;border-color:#0078D4;color:#fff}
+.lg-line{background:#4EC9B0}.lg-dash{border-top-color:#CE9178}.lg-dot{background:#CCA700}
+.thr output{color:var(--syn-num)}
+.msgcard,.msg{border-radius:6px}
+.msgcard.hot{background:rgba(204,167,0,.08);border-color:rgba(204,167,0,.45)}
+.proof{border-color:var(--line)}
+.proof b{font-family:var(--mono);font-weight:500;font-size:22px;letter-spacing:-.02em;color:var(--syn-num)}
+.proof div:nth-child(2) b{color:var(--syn-type)}.proof div:nth-child(3) b{color:var(--syn-str)}.proof div:nth-child(4) b{color:var(--syn-fn)}
+.feat{border-radius:8px}
+.feat>div{background:var(--surface)}
+.ico{border-radius:4px;background:#202020}
+.ico svg{stroke:var(--syn-var)}
+.calc,.feed,.plan{border-radius:8px}
+.calc{background:var(--surface)}
+.money input{border-radius:2px;background:#313131;border-color:#3C3C3C}
+.money input:focus{border-color:#0078D4;box-shadow:none;outline:1px solid #0078D4}
+.segm{border-radius:4px}.segm button{border-radius:2px}
+.segm button[aria-pressed=true]{background:#04395E;border-color:#0078D4}
+.saved b{font-family:var(--mono);font-weight:500;color:var(--green);letter-spacing:-.03em}
+.steps3>div::before{color:var(--faint);content:counter(s);font-size:13px}
+.steps3>div{border-top-color:var(--line2)}
+.feed-h{background:var(--bg);font-family:var(--mono);font-size:12.5px}
+.feed-b{background:var(--surface)}
+.plan{background:var(--surface);border-top:2px solid #0078D4}
+.plan .tag{border-radius:3px}
+.amount b{font-family:var(--mono);font-weight:500;letter-spacing:-.04em}
+.final{border-radius:8px;border-top:2px solid #0078D4;background:radial-gradient(600px 300px at 50% 120%,rgba(0,120,212,.25),transparent 70%),var(--surface)}
+.sticky{bottom:24px;background:rgba(24,24,24,.96)}
+@media(max-width:760px){footer{padding-bottom:70px}}
 </style></head><body>
 
 <nav class="nav" aria-label="Main"><div class="nav-inner">
@@ -198,7 +242,7 @@ thead th.us{color:var(--accent);background:rgba(45,212,191,.14)}
 
 <div class="wrap">
 <header class="hero-c">
-<a class="pill" href="#heartbeat"><i></i>New: a Monday heartbeat, so silence means safe</a>
+<a class="pill" href="#heartbeat"><i></i><span class="kw">new</span> weeklyDigest<span class="pn">()</span> <span class="cm">// a Monday heartbeat, so silence means safe</span></a>
 <h1><span>Know when your AI bill jumps.</span> Before the invoice does.</h1>
 <p class="lede">Spikewatch checks your AI API usage every hour and sends one Slack message when spend crosses 3x your normal. Read-only key. No code changes. Your prompts are never read.</p>
 <div class="cta-row" id="heroCta">
@@ -415,12 +459,12 @@ function draw(){
  const x=i=>m.l+i*(W-m.l-m.r)/(show.length-1),y=v=>Hh-m.b-v/top*(Hh-m.b-m.t);
  const al=show.filter(r=>r.alert);
  let s=`<svg viewBox="0 0 ${W} ${Hh}" role="img" aria-label="Last 3 days of hourly spend, ${al.length} alert${al.length===1?"":"s"}">`;
- for(let v=0;v<=top;v+=step){s+=`<line x1="${m.l}" x2="${W-m.r}" y1="${y(v)}" y2="${y(v)}" stroke="rgba(255,255,255,.06)"/><text x="${m.l-6}" y="${y(v)+4}" text-anchor="end" font-family="JetBrains Mono,monospace" font-size="10" fill="#8B949A">$${v}</text>`}
- [0,24,48].forEach(i=>{s+=`<text x="${x(i)}" y="${Hh-6}" font-family="JetBrains Mono,monospace" font-size="10" fill="#8B949A">${day(show[i].t)}</text>`});
- s+=`<path d="M${x(0)},${y(0)} ${show.map((r,i)=>`L${x(i)},${y(r.v)}`).join(" ")} L${x(show.length-1)},${y(0)}Z" fill="#2DD4BF" opacity=".10"/>`;
- s+=`<polyline fill="none" stroke="#2DD4BF" stroke-width="2" stroke-linejoin="round" points="${show.map((r,i)=>x(i)+","+y(r.v)).join(" ")}"/>`;
- s+=`<polyline fill="none" stroke="#F5B544" stroke-width="1.4" stroke-dasharray="5 4" points="${thr.map((v,i)=>v?x(i)+","+y(v):"").filter(Boolean).join(" ")}"/>`;
- show.forEach((r,i)=>{if(r.alert)s+=`<circle cx="${x(i)}" cy="${y(r.v)}" r="10" fill="#F5B544" opacity=".20"/><circle cx="${x(i)}" cy="${y(r.v)}" r="5.5" fill="#F5B544" stroke="#0C0E10" stroke-width="2"/>`});
+ for(let v=0;v<=top;v+=step){s+=`<line x1="${m.l}" x2="${W-m.r}" y1="${y(v)}" y2="${y(v)}" stroke="rgba(255,255,255,.06)"/><text x="${m.l-6}" y="${y(v)+4}" text-anchor="end" font-family="JetBrains Mono,monospace" font-size="10" fill="#9D9D9D">$${v}</text>`}
+ [0,24,48].forEach(i=>{s+=`<text x="${x(i)}" y="${Hh-6}" font-family="JetBrains Mono,monospace" font-size="10" fill="#9D9D9D">${day(show[i].t)}</text>`});
+ s+=`<path d="M${x(0)},${y(0)} ${show.map((r,i)=>`L${x(i)},${y(r.v)}`).join(" ")} L${x(show.length-1)},${y(0)}Z" fill="#4EC9B0" opacity=".10"/>`;
+ s+=`<polyline fill="none" stroke="#4EC9B0" stroke-width="2" stroke-linejoin="round" points="${show.map((r,i)=>x(i)+","+y(r.v)).join(" ")}"/>`;
+ s+=`<polyline fill="none" stroke="#CE9178" stroke-width="1.4" stroke-dasharray="5 4" points="${thr.map((v,i)=>v?x(i)+","+y(v):"").filter(Boolean).join(" ")}"/>`;
+ show.forEach((r,i)=>{if(r.alert)s+=`<circle cx="${x(i)}" cy="${y(r.v)}" r="10" fill="#CCA700" opacity=".22"/><circle cx="${x(i)}" cy="${y(r.v)}" r="5.5" fill="#CCA700" stroke="#1F1F1F" stroke-width="2"/>`});
  box.innerHTML=s+"</svg>";
  const v=$("dverdict");
  if(al.length){const a=al[0],startIdx=show.findIndex(r=>r.ratio&&r.ratio>=1.8&&r.t>=a.t-6*H),start=show[startIdx]||a;
