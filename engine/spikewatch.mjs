@@ -1,6 +1,7 @@
 // Hourly job: node engine/spikewatch.mjs
+// Weekly digest: Mondays at DIGEST_HOUR_UTC (default 9); set DIGEST=off to disable.
 // Env: ANTHROPIC_ADMIN_KEY (read-only admin key), SLACK_WEBHOOK_URL (optional), MULT (3), FLOOR (5), MODE (sameHour|trailing24), COOLDOWN_H (6)
-import {detect,usageToPoints,alertText} from "./detect.mjs";
+import {detect,usageToPoints,alertText,weeklyDigest} from "./detect.mjs";
 const key=process.env.ANTHROPIC_ADMIN_KEY; if(!key){console.error("ANTHROPIC_ADMIN_KEY missing");process.exit(1)}
 const opts={mult:+(process.env.MULT||3),floor:+(process.env.FLOOR||5),mode:process.env.MODE||"sameHour",cooldownH:+(process.env.COOLDOWN_H||6)};
 const H=3600000, end=new Date(Math.floor(Date.now()/H)*H), start=new Date(end-15*24*H);
@@ -20,4 +21,8 @@ console.log(`checked ${rows.length} hours, ${last.length} new alert(s)`);
 for(const r of last){
   const text=alertText(r,opts);console.log(text);
   if(process.env.SLACK_WEBHOOK_URL){const s=await fetch(process.env.SLACK_WEBHOOK_URL,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({text})});console.log("slack",s.status)}
+}
+const post=async text=>{if(process.env.SLACK_WEBHOOK_URL){const s=await fetch(process.env.SLACK_WEBHOOK_URL,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({text})});console.log("slack",s.status)}};
+if(process.env.DIGEST!=="off"&&end.getUTCDay()===1&&end.getUTCHours()===+(process.env.DIGEST_HOUR_UTC||9)){
+  const text=weeklyDigest(rows,+end);console.log(text);await post(text);
 }
