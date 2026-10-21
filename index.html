@@ -210,6 +210,19 @@ footer{border-top:1px solid var(--line);background:var(--surface2)}
   .band{padding:32px 24px}
   .tw.wide table{min-width:680px}
 }
+/* ui-pass: 44px targets, focus, overflow */
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.nav-links a{display:inline-flex;align-items:center;min-height:44px;padding:0 12px}
+.nav-inner>a:first-child{display:inline-flex;align-items:center;min-height:44px}
+.nav-cta.btn,.btn{min-height:44px;display:inline-flex;align-items:center;justify-content:center}
+.foot-col a{display:inline-flex;align-items:center;min-height:36px}
+.foot-col{gap:0}
+.foot-inner a{display:inline-flex;align-items:center;min-height:36px}
+.tabs{max-width:100%;overflow-x:auto}
+html,body{overflow-x:clip}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+.crumbs a{display:inline-flex;align-items:center;min-height:36px}
+.docside a{display:flex;align-items:center;min-height:40px}
 </style>
 </head><body>
 <nav class="nav"><div class="nav-inner">
