@@ -157,7 +157,7 @@ new IntersectionObserver(e => { if (!e[0].isIntersecting && toast.classList.cont
     cam.setViewOffset(w, h, w > 900 ? -w * 0.04 : 0, w > 900 ? -h * 0.02 : h * 0.2, w, h);
     cam.updateProjectionMatrix();
   }
-  new ResizeObserver(size).observe(canvas); size();
+  new ResizeObserver(() => { size(); kick(); }).observe(canvas); size();
 
   let visible = true, t0 = performance.now(), raf = 0;
   function frame(now) {
